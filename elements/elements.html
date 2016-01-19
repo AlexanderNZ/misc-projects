@@ -16007,6 +16007,10 @@ module.exports = Array.isArray || function (arr) {
       app.route = 'licence';
     });
 
+    page('/Sierpinski-Triangle', function() {
+      app.route = 'Sierpinski-Triangle';
+    });
+
     page('/contact', function() {
       app.route = 'contact';
     });
@@ -16374,6 +16378,10 @@ module.exports = Array.isArray || function (arr) {
             <paper-material>
                 <h3>Project: {{item.projectName}}</h3>
                 <p>Category: {{item.category}}</p>
+                <a data-route="url" href="{{baseUrl}}{{item.url}}">
+                    <iron-icon icon="info"></iron-icon>
+                    <span>{{baseUrl}}{{item.url}}</span>
+                </a>
             </paper-material>
         </template>
     </template>
@@ -16385,35 +16393,43 @@ module.exports = Array.isArray || function (arr) {
                 this.projects = [
                     {
                         projectName: "Sierpinski Triangle",
-                        category: 'Algorithm'
+                        category: 'Algorithm',
+                        url: 'Sierpinski-Triangle'
                     },
                     {
                         projectName: 'Apollonian Gasket',
-                        category: 'Algorithm'
+                        category: 'Algorithm',
+                        url: ''
                     },
                     {
                         projectName: 'Wiener Process',
-                        category: 'Algorithm'
+                        category: 'Algorithm',
+                        url: ''
                     },
                     {
                         projectName: 'Quick Sort',
-                        category: 'Sorting Algorithm'
+                        category: 'Sorting Algorithm',
+                        url: ''
                     },
                     {
                         projectName: 'Radix Sort',
-                        category: 'Sorting Algorithm'
+                        category: 'Sorting Algorithm',
+                        url: ''
                     },
                     {
                         projectName: 'Temperature Converter',
-                        category: 'Tool'
+                        category: 'Tool',
+                        url: ''
                     },
                     {
                         projectName: 'Identity Generator',
-                        category: 'Tool'
+                        category: 'Tool',
+                        url: ''
                     },
                     {
                         projectName: 'Gnome Sort',
-                        category: 'Tool'
+                        category: 'Tool',
+                        url: ''
                     }
                 ];
             }
