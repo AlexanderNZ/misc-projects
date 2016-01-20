@@ -16011,6 +16011,34 @@ module.exports = Array.isArray || function (arr) {
       app.route = 'Sierpinski-Triangle';
     });
 
+    page('/Apollonian-Gasket', function() {
+      app.route = 'Apollonian-Gasket';
+    });
+
+    page('/Wiener-Process', function() {
+      app.route = 'Wiener-Process';
+    });
+
+    page('/Quick-Sort', function() {
+      app.route = 'Quick-Sort';
+    });
+
+    page('/Radix-Sort', function() {
+      app.route = 'Radix-Sort';
+    });
+
+    page('/Gnome-Sort', function() {
+      app.route = 'Gnome-Sort';
+    });
+
+    page('/Temperature-Converter', function() {
+      app.route = 'Temperature-Converter';
+    });
+
+    page('/Identity-Generator', function() {
+      app.route = 'Identity-Generator';
+    });
+
     page('/contact', function() {
       app.route = 'contact';
     });
@@ -16372,15 +16400,116 @@ module.exports = Array.isArray || function (arr) {
     })();
   </script>
 </dom-module>
+
+
+<dom-module id="paper-button" assetpath="../bower_components/paper-button/">
+  <template strip-whitespace="">
+
+    <style include="paper-material">
+      :host {
+        display: inline-block;
+        position: relative;
+        box-sizing: border-box;
+        min-width: 5.14em;
+        margin: 0 0.29em;
+        background: transparent;
+        text-align: center;
+        font: inherit;
+        text-transform: uppercase;
+        outline-width: 0;
+        border-radius: 3px;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+        cursor: pointer;
+        z-index: 0;
+        padding: 0.7em 0.57em;
+
+        @apply(--paper-button);
+      }
+
+      :host([raised].keyboard-focus) {
+        font-weight: bold;
+        @apply(--paper-button-raised-keyboard-focus);
+      }
+
+      :host(:not([raised]).keyboard-focus) {
+        font-weight: bold;
+        @apply(--paper-button-flat-keyboard-focus);
+      }
+
+      :host([disabled]) {
+        background: #eaeaea;
+        color: #a8a8a8;
+        cursor: auto;
+        pointer-events: none;
+
+        @apply(--paper-button-disabled);
+      }
+
+      paper-ripple {
+        color: var(--paper-button-ink-color);
+      }
+
+      :host > ::content * {
+        text-transform: inherit;
+      }
+    </style>
+    <content></content>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'paper-button',
+
+    behaviors: [
+      Polymer.PaperButtonBehavior
+    ],
+
+    properties: {
+      /**
+       * If true, the button should be styled with a shadow.
+       */
+      raised: {
+        type: Boolean,
+        reflectToAttribute: true,
+        value: false,
+        observer: '_calculateElevation'
+      }
+    },
+
+    _calculateElevation: function() {
+      if (!this.raised) {
+        this._setElevation(0);
+      } else {
+        Polymer.PaperButtonBehaviorImpl._calculateElevation.apply(this);
+      }
+    }
+    /**
+
+    Fired when the animation finishes.
+    This is useful if you want to wait until
+    the ripple animation finishes to perform some action.
+
+    @event transitionend
+    @param {{node: Object}} detail Contains the animated node.
+    */
+  });
+</script>
 <dom-module id="project-list" assetpath="project-item/">
     <template is="dom-repeat" items="{{projects}}">
         <template is="dom-repeat" items="{{projects}}">
             <paper-material>
                 <h3>Project: {{item.projectName}}</h3>
+                <p>{{item.blurb}}</p>
                 <p>Category: {{item.category}}</p>
                 <a data-route="url" href="{{baseUrl}}{{item.url}}">
-                    <iron-icon icon="info"></iron-icon>
-                    <span>{{baseUrl}}{{item.url}}</span>
+                    <paper-button raised="">
+                        <iron-icon icon="icons:arrow-forward">View</iron-icon>
+                        <span>{{baseUrl}}{{item.url}}</span>
+                    </paper-button>
                 </a>
             </paper-material>
         </template>
@@ -16393,47 +16522,112 @@ module.exports = Array.isArray || function (arr) {
                 this.projects = [
                     {
                         projectName: "Sierpinski Triangle",
+                        blurb: 'The Sierpinski triangle (also with the original orthography Sierpiński), also called the ' +
+                        'Sierpinski gasket or the Sierpinski Sieve, is a fractal and attractive fixed set with the overall ' +
+                        'shape of an equilateral triangle, subdivided recursively into smaller equilateral triangles. ' +
+                        'Originally constructed as a curve, this is one of the basic examples of self-similar sets, i.e., ' +
+                        'it is a mathematically generated pattern that can be reproducible at any magnification or reduction. ' +
+                        'It is named after the Polish mathematician Wacław Sierpiński but appeared as a decorative ' +
+                        'pattern many centuries prior to the work of Sierpiński.',
                         category: 'Algorithm',
                         url: 'Sierpinski-Triangle'
                     },
                     {
                         projectName: 'Apollonian Gasket',
+                        blurb: 'In mathematics, an Apollonian gasket or Apollonian net is a fractal generated from ' +
+                        'triples of circles, where each circle is tangent to the other two. It is named after Greek ' +
+                        'mathematician Apollonius of Perga.',
                         category: 'Algorithm',
-                        url: ''
+                        url: 'Apollonian-Gasket'
                     },
                     {
                         projectName: 'Wiener Process',
+                        blurb: 'In mathematics, the Wiener process is a continuous-time stochastic process named in ' +
+                        'honor of Norbert Wiener. It is often called standard Brownian motion, after Robert Brown. ' +
+                        'It is one of the best known Lévy processes (càdlàg stochastic processes with stationary ' +
+                        'independent increments) and occurs frequently in pure and applied mathematics, economics, ' +
+                        'quantitative finance, and physics.',
                         category: 'Algorithm',
-                        url: ''
+                        url: 'Wiener-Process'
                     },
                     {
                         projectName: 'Quick Sort',
+                        blurb: 'Quicksort (sometimes called partition-exchange sort) is an efficient sorting algorithm, ' +
+                        'serving as a systematic method for placing the elements of an array in order. Developed by Tony ' +
+                        'Hoare in 1959,[1] with his work published in 1961,[2] it is still a commonly used algorithm for ' +
+                        'sorting. When implemented well, it can be about two or three times faster than its main ' +
+                        'competitors, merge sort and heapsort.[3]',
                         category: 'Sorting Algorithm',
-                        url: ''
+                        url: 'Quick-Sort'
                     },
                     {
                         projectName: 'Radix Sort',
+                        blurb: 'In computer science, radix sort is a non-comparative integer sorting algorithm that ' +
+                        'sorts data with integer keys by grouping keys by the individual digits which share the same ' +
+                        'significant position and value. A positional notation is required, but because integers can ' +
+                        'represent strings of characters (e.g., names or dates) and specially formatted floating point ' +
+                        'numbers, radix sort is not limited to integers. Radix sort dates back as far as 1887 to the ' +
+                        'work of Herman Hollerith on tabulating machines.[1]',
                         category: 'Sorting Algorithm',
-                        url: ''
+                        url: 'Radix-Sort'
+                    }, {
+                        projectName: 'Gnome Sort',
+                        blurb: 'Gnome sort (or Stupid sort) is a sorting algorithm originally proposed by Dr. Hamid ' +
+                        'Sarbazi-Azad (Professor of Computer Engineering at Sharif University of Technology) in 2000 ' +
+                        'and called "stupid sort"[1] (not to be confused with bogosort), and then later on described by ' +
+                        'Dick Grune and named "gnome sort" from the observation that it is "how a gnome sorts a line of ' +
+                        'flower pots."[2] It is a sorting algorithm which is similar to insertion sort, except that ' +
+                        'moving an element to its proper place is accomplished by a series of swaps, as in bubble sort. ' +
+                        'It is conceptually simple, requiring no nested loops. The average, or expected, running time is ' +
+                        'O(n2), but tends towards O(n) if the list is initially almost sorted.[3]',
+                        category: 'Sorting Algorithm',
+                        url: 'Gnome-Sort'
                     },
                     {
                         projectName: 'Temperature Converter',
+                        blurb: 'This is a tool I made that converts a given temperature between Celsius, Fahrenheit and ' +
+                        'Kelvin',
                         category: 'Tool',
-                        url: ''
+                        url: 'Temperature-Converter'
                     },
                     {
                         projectName: 'Identity Generator',
+                        blurb: 'This tool generates a random identity - that is it generates a full name, phone number, ' +
+                        'email address, IRD number, bank account and credit card details, and a physical address. ' +
+                        'Obviously all of these details are completely fake and random.',
                         category: 'Tool',
-                        url: ''
-                    },
-                    {
-                        projectName: 'Gnome Sort',
-                        category: 'Tool',
-                        url: ''
+                        url: 'Identity-Generator'
                     }
                 ];
             }
         });
     </script>
 
-</dom-module></div></body></html>
+</dom-module><dom-module id="sierpinski-triangle" assetpath="sierpinski-triangle/">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <div>Hello from <span>{{foo}}</span></div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'sierpinski-triangle',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'sierpinski-triangle',
+          notify: true
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>
+</div></body></html>
