@@ -17,23 +17,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
     </style>
-    <div>Hello from <span>{{foo}}</span></div>
+    <h1>Hello from <span>{{foo}}</span></h1>
+
+    <a data-route="url" href="/">
+      <paper-button raised>
+        <iron-icon icon="icons:arrow-back"></iron-icon>
+        <span>View other projects</span>
+      </paper-button>
+    </a>
   </template>
   <script>
-  (function() {
-    'use strict';
+    (function () {
+      'use strict';
 
-    Polymer({
-      is: 'sierpinski-triangle',
+      Polymer({
+        is: 'sierpinski-triangle',
 
-      properties: {
-        foo: {
-          type: String,
-          value: 'sierpinski-triangle',
-          notify: true
+        properties: {
+          foo: {
+            type: String,
+            value: 'sierpinski-triangle',
+            notify: true
+          }
         }
-      }
-    });
-  })();
+      });
+    })();
   </script>
+
 </dom-module>
