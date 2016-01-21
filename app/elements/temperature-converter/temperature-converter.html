@@ -11,8 +11,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 
-<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-
 <link rel="import" href="../../bower_components/iron-demo-helpers/demo-pages-shared-styles.html">
 <link rel="import" href="../../bower_components/iron-demo-helpers/demo-snippet.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
@@ -23,6 +21,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-input/paper-input-container.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input-error.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
 
 <dom-module id="temperature-converter">
@@ -39,12 +38,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <p>For example, I want to convert 20 degrees celsius in to degrees kelvin. Just type '20' in to the celsius field
     and the Kelvin and Fahrenheit fields will automatically populate with the converted temperature.</p>
 
-    <!--NB to get that auto populate shit go {{foo::input}}-->
-    <paper-input id="celsius" label="Enter Celsius Temperature Here" auto-validate allowed-pattern=[0-9] value="{{inputValue}}"></paper-input>
-    <paper-input id="kelvin" label="Enter Kelvin Temperature Here"auto-validate allowed-pattern=[0-9] value="{{inputValue}}"></paper-input>
-    <paper-input id="fahrenheit" label="Enter Fahrenheit Temperature Here"auto-validate allowed-pattern=[0-9] value="{{inputValue}}"></paper-input>
-    <home-button></home-button>
+    <paper-input id="inputTemp" label="Enter Your Temperature Value Here" auto-validate allowed-pattern=[0-9] value="{{temp}}"></paper-input>
+    <paper-checkbox checked="{{convertFromCelsius}}">Celsius</paper-checkbox><br>
+    <paper-checkbox checked="{{convertFromKelvin}}">Kelvin</paper-checkbox><br>
+    <paper-checkbox checked="{{convertFromFahrenheit}}">Fahrenheit</paper-checkbox>
+
+    <paper-input id="celsius" label="Enter Celsius Temperature Here" auto-validate allowed-pattern=[0-9] value="{{celsius}}"></paper-input>
+    <paper-input id="kelvin" label="Enter Kelvin Temperature Here"auto-validate allowed-pattern=[0-9] value="{{kelvin}}"></paper-input>
+    <paper-input id="fahrenheit" label="Enter Fahrenheit Temperature Here"auto-validate allowed-pattern=[0-9] value="{{fahrenheit}}"></paper-input>
   </template>
+
   <script>
   (function() {
     'use strict';
@@ -52,9 +55,55 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'temperature-converter',
 
-      doConversion: function(e, input, output)
-      {
-        //TODO Implement calculation
+      properties: {
+        temp: {
+          type: Number,
+        },
+
+        celsius: {
+          type: Number
+        },
+
+        kelvin: {
+          type: Number
+        },
+
+        fahrenheit: {
+          type: Number
+        },
+
+        convertFromCelsius: {
+          type: Boolean,
+          value: false,
+          observer:'calculateFromCelsius'
+        },
+
+        convertFromKelvin: {
+          type: Boolean,
+          value: false,
+          observer:'calculateFromKelvin'
+        },
+
+        convertFromFahrenheit: {
+          type: Boolean,
+          value: false,
+          observer:'calculateFromFahrenheit'
+        }
+      },
+
+      calculateFromCelsius: function(temp) {
+        this.celsius = inputValue;
+        this.kelvin = inputValue + 278.15
+      },
+
+      calculateFromKelvin: function(temp) {
+        this.celsius = inputValue;
+        this.kelvin = inputValue + 278.15
+      },
+
+      calculateFromFahrenheit: function(temp) {
+        this.celsius = inputValue;
+        this.kelvin = inputValue + 278.15
       }
     });
   })();
