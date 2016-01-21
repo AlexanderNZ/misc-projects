@@ -38,14 +38,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     respective fields.</p>
     <p>For example, I want to convert 20 degrees celsius in to degrees kelvin. Just type '20' in to the celsius field
     and the Kelvin and Fahrenheit fields will automatically populate with the converted temperature.</p>
-    <paper-input label="Enter Celsius Temperature Here" auto-validate allowed-pattern=[1-9] value="Celsius::input"></paper-input>
-    <paper-input label="Enter Kelvin Temperature Here"auto-validate allowed-pattern=[1-9] value="Celsius::input"></paper-input>
-    <paper-input label="Enter Fahrenheit Temperature Here"auto-validate allowed-pattern=[1-9] value="Celsius::input"></paper-input>
 
-    <h2 class="page-title">{{foo}}</h2>
-    <span>Update text to change the greeting.</span>
-    <!-- Listens for "input" event and sets greeting to <input>.value -->
-    <input value="{{foo::input}}">
+    <!--NB to get that auto populate shit go {{foo::input}}-->
+    <paper-input id="celsius" label="Enter Celsius Temperature Here" auto-validate allowed-pattern=[0-9] value="{{inputValue}}"></paper-input>
+    <paper-input id="kelvin" label="Enter Kelvin Temperature Here"auto-validate allowed-pattern=[0-9] value="{{inputValue}}"></paper-input>
+    <paper-input id="fahrenheit" label="Enter Fahrenheit Temperature Here"auto-validate allowed-pattern=[0-9] value="{{inputValue}}"></paper-input>
     <home-button></home-button>
   </template>
   <script>
@@ -55,22 +52,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'temperature-converter',
 
-      properties: {
-        Celsius: {
-          type: String,
-          value: '20',
-          notify: true
-        },
-        Kelvin: {
-          type: String,
-          value: 'temperature-converter',
-          notify: true
-        },
-        Fahrenheit: {
-          type: String,
-          value: 'temperature-converter',
-          notify: true
-        }
+      doConversion: function(e, input, output)
+      {
+        //TODO Implement calculation
       }
     });
   })();
