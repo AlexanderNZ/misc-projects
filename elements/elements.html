@@ -16507,8 +16507,8 @@ module.exports = Array.isArray || function (arr) {
                 <p>Category: {{item.category}}</p>
                 <a data-route="url" href="{{baseUrl}}{{item.url}}">
                     <paper-button raised="">
-                        <iron-icon icon="icons:arrow-forward">View</iron-icon>
-                        <span>{{baseUrl}}{{item.url}}</span>
+                        <iron-icon icon="icons:arrow-forward"></iron-icon>
+                        <span>View {{baseUrl}}{{item.url}}</span>
                     </paper-button>
                 </a>
             </paper-material>
@@ -16603,7 +16603,43 @@ module.exports = Array.isArray || function (arr) {
         });
     </script>
 
-</dom-module><dom-module id="sierpinski-triangle" assetpath="sierpinski-triangle/">
+</dom-module>
+<dom-module id="sierpinski-triangle" assetpath="sierpinski-triangle/">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h1>Hello from <span>{{foo}}</span></h1>
+
+    <a data-route="url" href="/">
+      <paper-button raised="">
+        <iron-icon icon="icons:arrow-back"></iron-icon>
+        <span>View other projects</span>
+      </paper-button>
+    </a>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        is: 'sierpinski-triangle',
+
+        properties: {
+          foo: {
+            type: String,
+            value: 'sierpinski-triangle',
+            notify: true
+          }
+        }
+      });
+    })();
+  </script>
+
+</dom-module>
+<dom-module id="apollonian-gasket" assetpath="apollonian-gasket/">
   <template>
     <style>
       :host {
@@ -16617,12 +16653,174 @@ module.exports = Array.isArray || function (arr) {
     'use strict';
 
     Polymer({
-      is: 'sierpinski-triangle',
+      is: 'apollonian-gasket',
 
       properties: {
         foo: {
           type: String,
-          value: 'sierpinski-triangle',
+          value: 'apollonian-gasket',
+          notify: true
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>
+<dom-module id="weiner-process" assetpath="weiner-process/">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <div>Hello from <span>{{foo}}</span></div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'weiner-process',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'weiner-process',
+          notify: true
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>
+<dom-module id="quick-sort" assetpath="quick-sort/">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <div>Hello from <span>{{foo}}</span></div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'quick-sort',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'quick-sort',
+          notify: true
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>
+<dom-module id="radix-sort" assetpath="radix-sort/">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <div>Hello from <span>{{foo}}</span></div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'radix-sort',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'radix-sort',
+          notify: true
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>
+<dom-module id="gnome-sort" assetpath="gnome-sort/">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <div>Hello from <span>{{foo}}</span></div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'gnome-sort',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'gnome-sort',
+          notify: true
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>
+<dom-module id="temperature-converter" assetpath="temperature-converter/">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <div>Hello from <span>{{foo}}</span></div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'temperature-converter',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'temperature-converter',
+          notify: true
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>
+<dom-module id="identity-generator" assetpath="identity-generator/">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <div>Hello from <span>{{foo}}</span></div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'identity-generator',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'identity-generator',
           notify: true
         }
       }
