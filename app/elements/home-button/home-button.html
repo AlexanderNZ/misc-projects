@@ -9,42 +9,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-styles/typography.html">
 
-<dom-module id="my-greeting">
+<dom-module id="home-button">
   <template>
-    <style include="shared-styles">
+    <style>
       :host {
         display: block;
       }
-
-      span,
-      input {
-        @apply(--paper-font-body2);
-      }
     </style>
-
-    <h2 class="page-title">{{greeting}}</h2>
-    <span>Update text to change the greeting.</span>
-    <!-- Listens for "input" event and sets greeting to <input>.value -->
-    <input value="{{greeting::input}}">
+    <a data-route="url" href="/">
+      <paper-button raised>
+        <iron-icon icon="icons:arrow-back"></iron-icon>
+        <span>View other projects</span>
+      </paper-button>
+    </a>
   </template>
-
   <script>
-    (function() {
-      'use strict';
+  (function() {
+    'use strict';
 
-      Polymer({
-        is: 'my-greeting',
+    Polymer({
+      is: 'home-button',
 
-        properties: {
-          greeting: {
-            type: String,
-            value: 'Welcome!',
-            notify: true
-          }
+      properties: {
+        foo: {
+          type: String,
+          value: 'home-button',
+          notify: true
         }
-      });
-    })();
+      }
+    });
+  })();
   </script>
 </dom-module>
