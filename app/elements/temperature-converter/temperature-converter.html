@@ -43,9 +43,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <paper-checkbox checked="{{convertFromKelvin}}">Kelvin</paper-checkbox><br>
     <paper-checkbox checked="{{convertFromFahrenheit}}">Fahrenheit</paper-checkbox>
 
-    <paper-input id="celsius" label="Enter Celsius Temperature Here" auto-validate allowed-pattern=[0-9] value="{{celsius}}"></paper-input>
-    <paper-input id="kelvin" label="Enter Kelvin Temperature Here"auto-validate allowed-pattern=[0-9] value="{{kelvin}}"></paper-input>
-    <paper-input id="fahrenheit" label="Enter Fahrenheit Temperature Here"auto-validate allowed-pattern=[0-9] value="{{fahrenheit}}"></paper-input>
+    <paper-input id="celsius" label="Celsius Temperature Appears Here" auto-validate allowed-pattern=[0-9] value="{{celsius}}"></paper-input>
+    <paper-input id="kelvin" label="Kelvin Temperature Appears Here"auto-validate allowed-pattern=[0-9] value="{{kelvin}}"></paper-input>
+    <paper-input id="fahrenheit" label="Fahrenheit Appears Temperature Here"auto-validate allowed-pattern=[0-9] value="{{fahrenheit}}"></paper-input>
   </template>
 
   <script>
@@ -93,17 +93,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       calculateFromCelsius: function(temp) {
         this.celsius = Number(this.temp);
-        this.kelvin = Number(this.temp) + 278.15;
+        this.kelvin = Number(this.temp) + 273.15;
+        this.fahrenheit = Number(this.temp) * (9/5) + 32;
       },
 
       calculateFromKelvin: function(temp) {
-        this.celsius = this.temp;
-        this.kelvin = temp + 278.15;
+        this.celsius = Number(this.temp) - 273.15;
+        this.kelvin = Number(this.temp);
+        this.fahrenheit = Number(this.temp) * (9/5) - 459.67;
       },
 
       calculateFromFahrenheit: function(temp) {
-        this.celsius = this.temp;
-        this.kelvin = this.temp + 278.15;
+        this.celsius = (Number(this.temp) - 32) * (5/9);
+        this.kelvin = (Number(this.temp) + 459.67) * (5/9);
+        this.fahrenheit = Number(this.temp);
       }
     });
   })();
