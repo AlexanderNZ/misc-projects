@@ -21612,11 +21612,14 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
       }
     </style>
     <h1>Temperature Converter</h1>
-    <p>To use this temperature converter, all you need to do is select the field of the temperature you know, and enter
-    the temperature. The other two fields will automatically convert and display the converted temperature in their
-    respective fields.</p>
-    <p>For example, I want to convert 20 degrees celsius in to degrees kelvin. Just type '20' in to the celsius field
-    and the Kelvin and Fahrenheit fields will automatically populate with the converted temperature.</p>
+    <p>This converter is still in development! If you genuinely need a temperature converted where accuracy, precision
+    or correctness is important, <strong>please go use google's calculator!</strong>.</p>
+    <p>Enter your the value you want to convert, in to the input field labeled "Enter your temperature value here".</p>
+    <p>Once you've done that, click on the checkbox that matches your input temperature - if you input 20 degrees Celsius
+    and want that converted, click the celsius checkbox.</p>
+    <p><strong>The calculator functions incorrectly when multiple checkboxes are selected, or checkboxes are selected
+    sequentially. This is still in development!</strong></p>
+
 
     <paper-input id="inputTemp" label="Enter Your Temperature Value Here" auto-validate="" allowed-pattern="[0-9]" value="{{temp}}"></paper-input>
     <paper-checkbox checked="{{convertFromCelsius}}">Celsius</paper-checkbox><br>
