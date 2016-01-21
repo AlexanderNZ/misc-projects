@@ -9,6 +9,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+
+<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+<link rel="import" href="../../bower_components/iron-demo-helpers/demo-pages-shared-styles.html">
+<link rel="import" href="../../bower_components/iron-demo-helpers/demo-snippet.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-styles/color.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input-container.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input-error.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
 
 <dom-module id="temperature-converter">
   <template>
@@ -17,7 +32,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
     </style>
-    <div>Hello from <span>{{foo}}</span></div>
+    <h1>Temperature Converter</h1>
+    <p>To use this temperature converter, all you need to do is select the field of the temperature you know, and enter
+    the temperature. The other two fields will automatically convert and display the converted temperature in their
+    respective fields.</p>
+    <p>For example, I want to convert 20 degrees celsius in to degrees kelvin. Just type '20' in to the celsius field
+    and the Kelvin and Fahrenheit fields will automatically populate with the converted temperature.</p>
+    <paper-input label="Enter Celsius Temperature Here" auto-validate allowed-pattern=[1-9] value="Celsius::input"></paper-input>
+    <paper-input label="Enter Kelvin Temperature Here"auto-validate allowed-pattern=[1-9] value="Celsius::input"></paper-input>
+    <paper-input label="Enter Fahrenheit Temperature Here"auto-validate allowed-pattern=[1-9] value="Celsius::input"></paper-input>
+
+    <h2 class="page-title">{{foo}}</h2>
+    <span>Update text to change the greeting.</span>
+    <!-- Listens for "input" event and sets greeting to <input>.value -->
+    <input value="{{foo::input}}">
     <home-button></home-button>
   </template>
   <script>
@@ -28,7 +56,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'temperature-converter',
 
       properties: {
-        foo: {
+        Celsius: {
+          type: String,
+          value: '20',
+          notify: true
+        },
+        Kelvin: {
+          type: String,
+          value: 'temperature-converter',
+          notify: true
+        },
+        Fahrenheit: {
           type: String,
           value: 'temperature-converter',
           notify: true
