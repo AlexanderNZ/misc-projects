@@ -92,18 +92,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       calculateFromCelsius: function(temp) {
-        this.celsius = inputValue;
-        this.kelvin = inputValue + 278.15
+        this.celsius = Number(this.temp);
+        this.kelvin = Number(this.temp) + 278.15;
       },
 
       calculateFromKelvin: function(temp) {
-        this.celsius = inputValue;
-        this.kelvin = inputValue + 278.15
+        this.celsius = this.temp;
+        this.kelvin = temp + 278.15;
       },
 
       calculateFromFahrenheit: function(temp) {
-        this.celsius = inputValue;
-        this.kelvin = inputValue + 278.15
+        this.celsius = this.temp;
+        this.kelvin = this.temp + 278.15;
       }
     });
   })();
