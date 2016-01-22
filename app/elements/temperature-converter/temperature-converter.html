@@ -40,9 +40,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
     <paper-input id="inputTemp" label="Enter Your Temperature Value Here" auto-validate allowed-pattern=[0-9] value="{{temp}}"></paper-input>
-    <paper-checkbox on-change="{{convertFromCelsius}}">Celsius</paper-checkbox><br>
-    <paper-checkbox on-change="{{convertFromKelvin}}">Kelvin</paper-checkbox><br>
-    <paper-checkbox on-change="{{convertFromFahrenheit}}">Fahrenheit</paper-checkbox>
+    <paper-checkbox checked="{{convertFromCelsius}}">Celsius</paper-checkbox><br>
+    <paper-checkbox checked="{{convertFromKelvin}}">Kelvin</paper-checkbox><br>
+    <paper-checkbox checked="{{convertFromFahrenheit}}">Fahrenheit</paper-checkbox>
 
     <paper-input id="celsius" label="Celsius Temperature Appears Here" auto-validate allowed-pattern=[0-9] value="{{celsius}}"></paper-input>
     <paper-input id="kelvin" label="Kelvin Temperature Appears Here"auto-validate allowed-pattern=[0-9] value="{{kelvin}}"></paper-input>
@@ -58,41 +58,54 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       properties: {
         temp: {
-          type: Number
+          type: Number,
+          enum: 0
         },
 
         celsius: {
-          type: Number
+          type: Number,
+          enum: 1
         },
 
         kelvin: {
-          type: Number
+          type: Number,
+          enum: 2
         },
 
         fahrenheit: {
-          type: Number
+          type: Number,
+          enum: 3
+        },
+
+        temperatureType: {
+          type: Number,
+          value: 1 // Defaults to Celsius
         },
 
         convertFromCelsius: {
-          type: Boolean,
+          type: Number,
           value: false,
-          observer:'calculateFromCelsius'
+          computed:'calculateFromCelsius(temp)'
         },
 
         convertFromKelvin: {
-          type: Boolean,
+          type: Number,
           value: false,
-          observer:'calculateFromKelvin'
+          computed:'calculateFromKelvin(temp)'
         },
 
         convertFromFahrenheit: {
-          type: Boolean,
+          type: Number,
           value: false,
-          observer:'calculateFromFahrenheit'
+          computed:'calculateFromFahrenheit(temp)'
         }
       },
 
-      calculateFromCelsius: function(temp) {
+      doConverstion: function(temp, temperatureType) {
+        switch (temperatureType){}
+      },
+
+      calculateErryThang: function(temp) {
         this.celsius = Number(this.temp);
         this.kelvin = Number(this.temp) + 273.15;
         this.fahrenheit = Number(this.temp) * (9/5) + 32;
