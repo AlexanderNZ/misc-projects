@@ -1,7 +1,7 @@
-![](https://cloud.githubusercontent.com/assets/110953/7877439/6a69d03e-0590-11e5-9fac-c614246606de.png)
-## Polymer Starter Kit
+## Misc Projects
 
-> A starting point for building web applications with Polymer 1.0
+> This is a polymer web app that is based around the polymer starter kit.
+> I'll maintain this repo sporadically as and when I have time to work on little cool bits of code that I think of.
 
 ### Included out of the box:
 
@@ -14,24 +14,7 @@
 * [Recipes](/docs/README.md/) for ES2015 support, Polymer performance, using Chrome Dev Editor, Deploying to GitHub Pages, Deploying to Firebase, and Mobile Chrome Apps
 
 ### Demo
-See latest Polymer Starter Kit Demo (from master) at https://polymerelements.github.io/polymer-starter-kit/
-
-### Tutorials
-
-Check out the Polymer Starter Kit tutorials on [polymer-project.org](https://www.polymer-project.org):
-
-* [Set up the PSK](https://www.polymer-project.org/1.0/docs/start/psk/set-up.html)
-* [Create a page](https://www.polymer-project.org/1.0/docs/start/psk/create-a-page.html)
-* [Deploy the PSK to the web](https://www.polymer-project.org/1.0/docs/start/psk/deploy.html)
-
-## Getting Started
-
-To take advantage of Polymer Starter Kit you need to:
-
-1. Get a copy of the code.
-2. Install the dependencies if you don't already have them.
-3. Modify the application to your liking.
-4. Deploy your production code.
+* Misc Projects is currently live at [4lex.nz/misc-projects](4lex.nz/misc-projects)
 
 ### Get the code
 
@@ -45,7 +28,7 @@ To take advantage of Polymer Starter Kit you need to:
 
 Rob Dodson has a fantastic [PolyCast video](https://www.youtube.com/watch?v=xz-yixRxZN8) available that walks through using Polymer Starter Kit. An [end-to-end with Polymer](https://www.youtube.com/watch?v=1f_Tj_JnStA) and Polymer Starter Kit talk is also available.
 
-### Install dependencies
+### If you want to use what I've made so far, or contribute:
 
 #### Quick-start (for experienced users)
 
@@ -120,62 +103,9 @@ gulp
 
 Build and optimize the current project, ready for deployment. This includes linting as well as vulcanization, image, script, stylesheet and HTML optimization and minification.
 
-## Application Theming & Styling
+### Deploying to Firebase
 
-Polymer 1.0 introduces a shim for CSS custom properties. We take advantage of this in `app/styles/app-theme.html` to provide theming for your application. You can also find our presets for Material Design breakpoints in this file.
-
-[Read more](https://www.polymer-project.org/1.0/docs/devguide/styling.html) about CSS custom properties.
-
-### Styling
-1. ***main.css*** - to define styles that can be applied outside of Polymer's custom CSS properties implementation. Some of the use-cases include defining styles that you want to be applied for a splash screen, styles for your application 'shell' before it gets upgraded using Polymer or critical style blocks that you want parsed before your elements are.
-2. ***app-theme.html*** - to provide theming for your application. You can also find our presets for Material Design breakpoints in this file.
-3. ***shared-styles.html*** - to share styles between elements and index.html.
-4. ***element styles only*** - styles specific to element. These styles should be inside the `<style></style>` inside `template`.
-
-  ```HTML
-  <dom-module id="my-list">
-    <template>
-      <style>
-        :host {
-          display: block;
-          background-color: yellow;
-        }
-      </style>
-      <ul>
-        <template is="dom-repeat" items="{{items}}">
-          <li><span class="paper-font-body1">{{item}}</span></li>
-        </template>
-      </ul>
-    </template>
-  </dom-module>
-  ```
-
-These style files are located in the [styles folder](app/styles/).
-
-## Unit Testing
-
-Web apps built with Polymer Starter Kit come configured with support for [Web Component Tester](https://github.com/Polymer/web-component-tester) - Polymer's preferred tool for authoring and running unit tests. This makes testing your element based applications a pleasant experience.
-
-[Read more](https://github.com/Polymer/web-component-tester#html-suites) about using Web Component tester.
-
-## Dependency Management
-
-Polymer uses [Bower](http://bower.io) for package management. This makes it easy to keep your elements up to date and versioned. For tooling, we use npm to manage Node.js-based dependencies.
-
-Components installed by Bower live in the `app/bower_components` directory. This location is specified by the `.bowerrc` file. Many projects which follow Yeoman conventions place the `bower_components` directory outside of the `app` directory and then mount it using a server. This causes problems for tools like [Vulcanize](https://github.com/polymer/vulcanize) and [web-component-shards](https://github.com/PolymerLabs/web-component-shards) which rely on relative paths. We've chosen to simplify things and have `bower_components` live inside of `app` to resolve these issues.
-
-## Deploy
-
-### Github Pages
-
-1. Uncomment this line  `// app.baseUrl = '/polymer-starter-kit/';` in app.js near the top
-2. Change `app.baseUrl = '/polymer-starter-kit/';`  to `app.baseUrl = '/your-pathname/';` (ex: if you repo is `github.com/username/bobs-awesome-site` you would change this to `bobs-awesome-site`)
-3. Run `gulp build-deploy-gh-pages` from command line
-4. To see changes wait 1-2 minutes then load Github pages for your app (ex: https://polymerelements.github.io/polymer-starter-kit/)
-
-[See more details](/docs/deploy-to-github-pages.md/)
-
-### Firebase
+The app doesn't require a database at the moment, but it's useful to know how to deploy it if need be.
 
 [See detail recipe](/docs/deploy-to-firebase-pretty-urls.md/)
 
@@ -313,37 +243,6 @@ You can select a template and copy over the relevant parts you would like to reu
 You will probably need to change paths to where your Iron and Paper dependencies can be found to get everything working.
 This can be done by adding them to the [`elements.html`](https://github.com/PolymerElements/polymer-starter-kit/blob/master/app/elements/elements.html) import.
 
-### Something has failed during installation. How do I fix this?
-
-Our most commonly reported issue is around system permissions for installing Node.js dependencies.
-We recommend following the [fixing npm permissions](https://github.com/sindresorhus/guides/blob/master/npm-global-without-sudo.md)
-guide to address any messages around administrator permissions being required. If you use `sudo`
-to work around these issues, this guide may also be useful for avoiding that.
-
-If you run into an exception that mentions five optional dependencies failing (or an `EEXIST` error), you
-may have run into an npm [bug](https://github.com/npm/npm/issues/6309). We recommend updating to npm 2.11.0+
-to work around this. You can do this by opening a Command Prompt/terminal and running `npm install npm@2.11.0 -g`. If you are on Windows,
-Node.js (and npm) may have been installed into `C:\Program Files\`. Updating npm by running `npm install npm@2.11.0 -g` will install npm
-into `%AppData%\npm`, but your system will still use the npm version. You can avoid this by deleting your older npm from `C:\Program Files\nodejs`
-as described [here](https://github.com/npm/npm/issues/6309#issuecomment-67549380).
-
-If the issue is to do with a failure somewhere else, you might find that due to a network issue
-a dependency failed to correctly install. We recommend running `npm cache clean` and deleting the `node_modules` directory followed by
-`npm install` to see if this corrects the problem. If not, please check the [issue tracker](https://github.com/PolymerElements/polymer-starter-kit/issues) in case
-there is a workaround or fix already posted.
-
-### I'm having trouble getting Vulcanize to fully build my project on Windows. Help?
-
-Some Windows users have run into trouble with the `elements.html` file in their `dist` folder
-not being correctly vulcanized. This can happen if your project is in a folder with a name containing a
-space. You can work around this issue by ensuring your path doesn't contain one.
-
-There is also an [in-flight](https://github.com/PolymerElements/polymer-starter-kit/issues/62#issuecomment-108974016) issue
-where some are finding they need to disable the `inlineCss` option in our configuration for Vulcanize
-to correctly build. We are still investigating this, however for the time-being use the workaround if
-you find your builds getting stuck here.
-
-
 ### How do I add new JavaScript files to Starter Kit so they're picked up by the build process?
 
 At the bottom of `app/index.html`, you will find a build block that can be used to include additional
@@ -363,17 +262,3 @@ during a build.
 ```
 
 If you are not using the build-blocks, but still wish for additional files (e.g scripts or stylesheets) to be included in the final `dist` directory, you will need to either copy these files as part of the gulpfile.js build process (see the `copy` task for how to automate this) or manually copy the files.
-
-### I'm finding the installation/tooling here overwhelming. What should I do?
-
-Don't worry! We've got your covered. Polymer Starter Kit tries to offer everything you need to build and optimize your apps for production, which is why we include the tooling we do. We realise however that our tooling setup may not be for everyone.
-
-If you find that you just want the simplest setup possible, we recommend using Polymer Starter Kit light, which is available from the [Releases](https://github.com/PolymerElements/polymer-starter-kit/releases) page. This takes next to no time to setup.
-
-## Licensing
-
-Like other Google projects, Polymer Starter Kit includes Google license headers at the top of several of our source files. Google's open-source licensing requires that this header be kept in place (sorry!), however we acknowledge that you may need to add your own licensing to files you modify. This can be done by appending your own extensions to these headers.
-
-## Contributing
-
-Polymer Starter Kit is a new project and is an ongoing effort by the Web Component community. We welcome your bug reports, PRs for improvements, docs and anything you think would improve the experience for other Polymer developers.
