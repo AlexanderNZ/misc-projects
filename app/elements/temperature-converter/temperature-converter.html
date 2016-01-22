@@ -82,12 +82,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           notify: true
         },
 
-        doConverstion: {
-          computed:'calculateFromCelsius(temp, temperatureType)'
+        celsiusConversion: {
+          computed:'doConvertion(temp, 1)'
+        },
+
+        kelvinConversion: {
+          computed:'doConvertion(temp, 2)'
+        },
+
+        fahrenheitConversion: {
+          computed:'doConvertion(temp, 3)'
         }
       },
 
-      doConverstion: function(temp, temperatureType) {
+      doConvertion: function(temp, temperatureType) {
         if (temperatureType === 1){
           //Celsius
           this.celsius = Number(this.temp);
@@ -106,19 +114,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.kelvin = (Number(this.temp) + 459.67) * (5/9);
           this.fahrenheit = Number(this.temp);
         }
-      },
-
-//      calculateFromCelsius: function(temp) {
-//
-//      },
-//
-//      calculateFromKelvin: function(temp) {
-//
-//      },
-//
-//      calculateFromFahrenheit: function(temp) {
-//
-//      }
+      }
     })
   })();
   </script>
