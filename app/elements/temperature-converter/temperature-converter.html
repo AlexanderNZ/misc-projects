@@ -40,9 +40,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
     <paper-input id="inputTemp" label="Enter Your Temperature Value Here" auto-validate allowed-pattern=[0-9] value="{{temp}}"></paper-input>
-    <paper-checkbox ariaActiveAttribute="{{doConverstion(temp, 1)}}">Celsius</paper-checkbox><br>
-    <paper-checkbox ariaActiveAttribute="{{doConverstion(temp, 2)}}">Kelvin</paper-checkbox><br>
-    <paper-checkbox ariaActiveAttribute="{{doConverstion(temp, 3)}}">Fahrenheit</paper-checkbox>
+    <paper-checkbox ariaActiveAttribute="{{celsiusConversion}}">Celsius</paper-checkbox><br>
+    <paper-checkbox ariaActiveAttribute="{{kelvinConversion}}">Kelvin</paper-checkbox><br>
+    <paper-checkbox ariaActiveAttribute="{{fahrenheitConversion}}">Fahrenheit</paper-checkbox>
 
     <paper-input id="celsius" label="Celsius Temperature Appears Here" auto-validate allowed-pattern=[0-9] value="{{celsius}}"></paper-input>
     <paper-input id="kelvin" label="Kelvin Temperature Appears Here"auto-validate allowed-pattern=[0-9] value="{{kelvin}}"></paper-input>
@@ -83,19 +83,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
 
         celsiusConversion: {
-          computed:'doConvertion(temp, 1)'
+          computed:'doConversion(temp, 1)'
         },
 
         kelvinConversion: {
-          computed:'doConvertion(temp, 2)'
+          computed:'doConversion(temp, 2)'
         },
 
         fahrenheitConversion: {
-          computed:'doConvertion(temp, 3)'
+          computed:'doConversion(temp, 3)'
         }
       },
 
-      doConvertion: function(temp, temperatureType) {
+      doConversion: function(temp, temperatureType) {
         if (temperatureType === 1){
           //Celsius
           this.celsius = Number(this.temp);
