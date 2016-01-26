@@ -21,14 +21,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-input/paper-input-container.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input-error.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 
 <dom-module id="temperature-converter">
   <template>
     <style>
       :host {
         display: block;
+      }
+      paper-button.custom {
+        --paper-button-ink-color: var(--paper-pink-a200);
+        /* These could also be individually defined for each of the
+          specific css classes, but we'll just do it once as an example */
+        --paper-button-flat-keyboard-focus: {
+          background-color: var(--paper-pink-a200);
+          color: white !important;
+        };
+        --paper-button-raised-keyboard-focus: {
+          background-color: var(--paper-pink-a200) !important;
+          color: white !important;
+        };
+      }
+      paper-button.custom:hover {
+        background-color: var(--paper-indigo-100);
+      }
+      paper-button.green {
+        background-color: var(--paper-green-500);
+        color: white;
+      }
+      paper-button.green[active] {
+        background-color: var(--paper-red-500);
       }
     </style>
     <h1>Temperature Converter</h1>
@@ -38,11 +60,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <p>For example, I want to convert 20 degrees celsius in to degrees kelvin. Just type '20' in to the celsius field
     and the Kelvin and Fahrenheit fields will automatically populate with the converted temperature.</p>
 
-    <paper-input id="inputTemp" label="Enter Your Temperature Value Here" auto-validate allowed-pattern=[0-9] value="{{temp}}"></paper-input>
-    <paper-checkbox checked="{{convertFromCelsius}}">Celsius</paper-checkbox><br>
-    <paper-checkbox checked="{{convertFromKelvin}}">Kelvin</paper-checkbox><br>
-    <paper-checkbox checked="{{convertFromFahrenheit}}">Fahrenheit</paper-checkbox>
 
+    <paper-input id="inputTemp" label="Enter Your Temperature Value Here" auto-validate allowed-pattern=[0-9] value="{{temp}}"></paper-input>
+    <div class="section">
+    <paper-button toggles raised class="custom green" active="{{convertFromCelsius}}">Celsius</paper-button><br>
+    <paper-button toggles raised class="custom green" active="{{convertFromKelvin}}">Kelvin</paper-button><br>
+    <paper-button toggles raised class="custom green" active="{{convertFromFahrenheit}}">Fahrenheit</paper-button>
+    </div>
     <paper-input id="celsius" label="Celsius Temperature Appears Here" auto-validate allowed-pattern=[0-9] value="{{celsius}}"></paper-input>
     <paper-input id="kelvin" label="Kelvin Temperature Appears Here"auto-validate allowed-pattern=[0-9] value="{{kelvin}}"></paper-input>
     <paper-input id="fahrenheit" label="Fahrenheit Temperature Appears Here"auto-validate allowed-pattern=[0-9] value="{{fahrenheit}}"></paper-input>
