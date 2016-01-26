@@ -16,11 +16,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-styles/color.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input-container.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input-error.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
 
 <dom-module id="temperature-converter">
   <template>
@@ -30,19 +32,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <h1>Temperature Converter</h1>
-    <p>This converter is still in development! If you genuinely need a temperature converted where accuracy, precision
-    or correctness is important, <strong>please go use google's calculator!</strong>.</p>
-    <p>Enter the value you want to convert, in to the input field labeled "Enter your temperature value here".</p>
-    <p>Once you've done that, click on the checkbox that matches your input temperature - if you input 20 degrees Celsius
-    and want that converted, click the celsius checkbox.</p>
-    <p><strong>The calculator functions incorrectly when multiple checkboxes are selected, or checkboxes are selected
-    sequentially. This is still in development!</strong></p>
-
+    <p>To use this temperature converter, all you need to do is select the field of the temperature you know, and enter
+    the temperature. The other two fields will automatically convert and display the converted temperature in their
+    respective fields.</p>
+    <p>For example, I want to convert 20 degrees celsius in to degrees kelvin. Just type '20' in to the celsius field
+    and the Kelvin and Fahrenheit fields will automatically populate with the converted temperature.</p>
 
     <paper-input id="inputTemp" label="Enter Your Temperature Value Here" auto-validate allowed-pattern=[0-9] value="{{temp}}"></paper-input>
-    <paper-checkbox ariaActiveAttribute="{{celsiusConversion}}">Celsius</paper-checkbox><br>
-    <paper-checkbox ariaActiveAttribute="{{kelvinConversion}}">Kelvin</paper-checkbox><br>
-    <paper-checkbox ariaActiveAttribute="{{fahrenheitConversion}}">Fahrenheit</paper-checkbox>
+    <paper-checkbox checked="{{convertFromCelsius}}">Celsius</paper-checkbox><br>
+    <paper-checkbox checked="{{convertFromKelvin}}">Kelvin</paper-checkbox><br>
+    <paper-checkbox checked="{{convertFromFahrenheit}}">Fahrenheit</paper-checkbox>
 
     <paper-input id="celsius" label="Celsius Temperature Appears Here" auto-validate allowed-pattern=[0-9] value="{{celsius}}"></paper-input>
     <paper-input id="kelvin" label="Kelvin Temperature Appears Here"auto-validate allowed-pattern=[0-9] value="{{kelvin}}"></paper-input>
@@ -58,62 +57,56 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       properties: {
         temp: {
-          type: Number,
-          notify: true
+          type: Number
         },
 
         celsius: {
-          type: Number,
-          notify: true
+          type: Number
         },
 
         kelvin: {
-          type: Number,
-          notify: true
+          type: Number
         },
 
         fahrenheit: {
-          type: Number,
-          notify: true
+          type: Number
         },
 
-        temperatureType: {
-          type: Number,
-          notify: true
+        convertFromCelsius: {
+          type: Boolean,
+          value: false,
+          observer:'calculateFromCelsius'
         },
 
-        celsiusConversion: {
-          computed:'doConversion(temp, 1)'
+        convertFromKelvin: {
+          type: Boolean,
+          value: false,
+          observer:'calculateFromKelvin'
         },
 
-        kelvinConversion: {
-          computed:'doConversion(temp, 2)'
-        },
-
-        fahrenheitConversion: {
-          computed:'doConversion(temp, 3)'
+        convertFromFahrenheit: {
+          type: Boolean,
+          value: false,
+          observer:'calculateFromFahrenheit'
         }
       },
 
-      doConversion: function(temp, temperatureType) {
-        if (temperatureType === 1){
-          //Celsius
-          this.celsius = Number(this.temp);
-          this.kelvin = Number(this.temp) + 273.15;
-          this.fahrenheit = Number(this.temp) * (9/5) + 32;
-        }
-        if (temperatureType === 2){
-          // Kelvin
-          this.celsius = Number(this.temp) - 273.15;
-          this.kelvin = Number(this.temp);
-          this.fahrenheit = Number(this.temp) * (9/5) - 459.67;
-        }
-        if (temperatureType === 3){
-          // Fahrenheit
-          this.celsius = (Number(this.temp) - 32) * (5/9);
-          this.kelvin = (Number(this.temp) + 459.67) * (5/9);
-          this.fahrenheit = Number(this.temp);
-        }
+      calculateFromCelsius: function(temp) {
+        this.celsius = Number(this.temp);
+        this.kelvin = Number(this.temp) + 273.15;
+        this.fahrenheit = Number(this.temp) * (9/5) + 32;
+      },
+
+      calculateFromKelvin: function(temp) {
+        this.celsius = Number(this.temp) - 273.15;
+        this.kelvin = Number(this.temp);
+        this.fahrenheit = Number(this.temp) * (9/5) - 459.67;
+      },
+
+      calculateFromFahrenheit: function(temp) {
+        this.celsius = (Number(this.temp) - 32) * (5/9);
+        this.kelvin = (Number(this.temp) + 459.67) * (5/9);
+        this.fahrenheit = Number(this.temp);
       }
     })
   })();
