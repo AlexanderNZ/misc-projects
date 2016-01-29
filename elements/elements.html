@@ -18404,6 +18404,10 @@ is separate from validation, and `allowed-pattern` does not affect how the input
       paper-button.green[active] {
         background-color: var(--paper-red-500);
       }
+
+      .container {
+        @apply(--layout-horizontal);
+      }
     </style>
     <h1>Temperature Converter</h1>
     <p>To use this temperature converter, all you need to do is select the field of the temperature you know, and enter
@@ -18414,11 +18418,13 @@ is separate from validation, and `allowed-pattern` does not affect how the input
 
 
     <paper-input id="inputTemp" label="Enter Your Temperature Value Here" auto-validate="" allowed-pattern="[0-9]" value="{{temp}}"></paper-input>
-    <div class="">
+
+    <div class="container">
     <paper-button toggles="" raised="" class="custom green" active="{{convertFromCelsius}}">Celsius</paper-button><br>
     <paper-button toggles="" raised="" class="custom green" active="{{convertFromKelvin}}">Kelvin</paper-button><br>
     <paper-button toggles="" raised="" class="custom green" active="{{convertFromFahrenheit}}">Fahrenheit</paper-button>
     </div>
+
     <paper-input id="celsius" label="Celsius Temperature Appears Here" auto-validate="" allowed-pattern="[0-9]" value="{{celsius}}"></paper-input>
     <paper-input id="kelvin" label="Kelvin Temperature Appears Here" auto-validate="" allowed-pattern="[0-9]" value="{{kelvin}}"></paper-input>
     <paper-input id="fahrenheit" label="Fahrenheit Temperature Appears Here" auto-validate="" allowed-pattern="[0-9]" value="{{fahrenheit}}"></paper-input>
