@@ -11,8 +11,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 
-<link rel="import" href="../../bower_components/iron-demo-helpers/demo-pages-shared-styles.html">
-<link rel="import" href="../../bower_components/iron-demo-helpers/demo-snippet.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-input/iron-input.html">
@@ -22,6 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-input/paper-input-error.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 
 <dom-module id="temperature-converter">
   <template>
@@ -30,6 +29,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
       paper-button.custom {
+        margin: 0.5%;
         --paper-button-ink-color: var(--paper-pink-a200);
         /* These could also be individually defined for each of the
           specific css classes, but we'll just do it once as an example */
@@ -52,6 +52,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       paper-button.green[active] {
         background-color: var(--paper-red-500);
       }
+
+      .container {
+        @apply(--layout-horizontal);
+      }
     </style>
     <h1>Temperature Converter</h1>
     <p>To use this temperature converter, all you need to do is select the field of the temperature you know, and enter
@@ -62,11 +66,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
     <paper-input id="inputTemp" label="Enter Your Temperature Value Here" auto-validate allowed-pattern=[0-9] value="{{temp}}"></paper-input>
-    <div class="section">
+
+    <div class="container">
     <paper-button toggles raised class="custom green" active="{{convertFromCelsius}}">Celsius</paper-button><br>
     <paper-button toggles raised class="custom green" active="{{convertFromKelvin}}">Kelvin</paper-button><br>
     <paper-button toggles raised class="custom green" active="{{convertFromFahrenheit}}">Fahrenheit</paper-button>
     </div>
+
     <paper-input id="celsius" label="Celsius Temperature Appears Here" auto-validate allowed-pattern=[0-9] value="{{celsius}}"></paper-input>
     <paper-input id="kelvin" label="Kelvin Temperature Appears Here"auto-validate allowed-pattern=[0-9] value="{{kelvin}}"></paper-input>
     <paper-input id="fahrenheit" label="Fahrenheit Temperature Appears Here"auto-validate allowed-pattern=[0-9] value="{{fahrenheit}}"></paper-input>
