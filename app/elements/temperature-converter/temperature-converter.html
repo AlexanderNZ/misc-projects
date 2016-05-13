@@ -49,9 +49,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background-color: var(--paper-green-500);
         color: white;
       }
-      paper-button.green[active] {
-        background-color: var(--paper-red-500);
-      }
+      /*paper-button.green[active] {*/
+        /*background-color: var(--paper-red-500);*/
+      /*}*/
 
       .container {
         @apply(--layout-horizontal);
@@ -68,14 +68,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <paper-input id="inputTemp" label="Enter Your Temperature Value Here" auto-validate allowed-pattern=[0-9] value="{{temp}}"></paper-input>
 
     <div class="container">
-    <paper-button toggles raised class="custom green" active="{{convertFromCelsius}}">Celsius</paper-button><br>
-    <paper-button toggles raised class="custom green" active="{{convertFromKelvin}}">Kelvin</paper-button><br>
-    <paper-button toggles raised class="custom green" active="{{convertFromFahrenheit}}">Fahrenheit</paper-button>
+    <paper-button id="celsius" toggles raised class="custom green" active="{{convertFromCelsius}}">Celsius</paper-button><br>
+    <paper-button id="kelvin" toggles raised class="custom green" active="{{convertFromKelvin}}">Kelvin</paper-button><br>
+    <paper-button id="fahrenheit" toggles raised class="custom green" active="{{convertFromFahrenheit}}">Fahrenheit</paper-button>
     </div>
 
-    <paper-input id="celsius" label="Celsius Temperature Appears Here" auto-validate allowed-pattern=[0-9] value="{{celsius}}"></paper-input>
-    <paper-input id="kelvin" label="Kelvin Temperature Appears Here"auto-validate allowed-pattern=[0-9] value="{{kelvin}}"></paper-input>
-    <paper-input id="fahrenheit" label="Fahrenheit Temperature Appears Here"auto-validate allowed-pattern=[0-9] value="{{fahrenheit}}"></paper-input>
+    <template is="dom-if" if="{{showResults}}">
+      <paper-input id="celsiusField" label="Celsius Temperature Appears Here" auto-validate allowed-pattern=[0-9] value="{{celsiusField}} °C"></paper-input>
+      <paper-input id="kelvinField" label="Kelvin Temperature Appears Here"auto-validate allowed-pattern=[0-9] value="{{kelvinField}} °K"></paper-input>
+      <paper-input id="fahrenheitField" label="Fahrenheit Temperature Appears Here"auto-validate allowed-pattern=[0-9] value="{{fahrenheitField}} °F"></paper-input>
+    </template>
   </template>
 
   <script>
@@ -85,20 +87,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'temperature-converter',
 
+      listeners: {
+        'celsius.click': 'regularTap',
+        'kelvin.click': 'regularTap',
+        'fahrenheit.click': 'regularTap'
+      },
+
+      regularTap: function(e) {
+        this.showResults = true
+      },
+
       properties: {
+
+        showResults: {
+          type: Boolean
+        },
+
         temp: {
           type: Number
         },
 
-        celsius: {
+        celsiusResult: {
           type: Number
         },
 
-        kelvin: {
+        kelvinResult: {
           type: Number
         },
 
-        fahrenheit: {
+        fahrenheitResult: {
           type: Number
         },
 
@@ -122,21 +139,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       calculateFromCelsius: function(temp) {
-        this.celsius = Number(this.temp);
-        this.kelvin = Number(this.temp) + 273.15;
-        this.fahrenheit = Number(this.temp) * (9/5) + 32;
+        this.celsiusField = Number(this.temp);
+        this.kelvinField = Number(this.temp) + 273.15;
+        this.fahrenheitField = Number(this.temp) * (9/5) + 32;
       },
 
       calculateFromKelvin: function(temp) {
-        this.celsius = Number(this.temp) - 273.15;
-        this.kelvin = Number(this.temp);
-        this.fahrenheit = Number(this.temp) * (9/5) - 459.67;
+        this.celsiusField = Number(this.temp) - 273.15;
+        this.kelvinField = Number(this.temp);
+        this.fahrenheitField = Number(this.temp) * (9/5) - 459.67;
       },
 
       calculateFromFahrenheit: function(temp) {
-        this.celsius = (Number(this.temp) - 32) * (5/9);
-        this.kelvin = (Number(this.temp) + 459.67) * (5/9);
-        this.fahrenheit = Number(this.temp);
+        this.celsiusField = (Number(this.temp) - 32) * (5/9);
+        this.kelvinField = (Number(this.temp) + 459.67) * (5/9);
+        this.fahrenheitField = Number(this.temp);
       }
     })
   })();
