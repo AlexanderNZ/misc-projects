@@ -57,6 +57,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--layout-horizontal);
       }
     </style>
+
     <h1>Temperature Converter</h1>
     <p>To use this temperature converter, all you need to do is select the field of the temperature you know, and enter
     the temperature. The other two fields will automatically convert and display the converted temperature in their
@@ -78,6 +79,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <paper-input id="kelvinField" label="Kelvin Temperature Appears Here"auto-validate allowed-pattern=[0-9] value="{{kelvinField}} °K"></paper-input>
       <paper-input id="fahrenheitField" label="Fahrenheit Temperature Appears Here"auto-validate allowed-pattern=[0-9] value="{{fahrenheitField}} °F"></paper-input>
     </template>
+
+    <home-button></home-button>
   </template>
 
   <script>
