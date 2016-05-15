@@ -1,0 +1,63 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="academic-projects">
+  <template is="dom-repeat" items="{{projects}}">
+    <template is="dom-repeat" items="{{projects}}">
+      <paper-material>
+        <h3>Project: {{item.projectName}}</h3>
+        <p>{{item.blurb}}</p>
+        <p>Category: {{item.category}}</p>
+        <a data-route="url" href="{{baseUrl}}{{item.url}}">
+          <paper-button raised>
+            <iron-icon icon="icons:arrow-forward"></iron-icon>
+            <span>View {{baseUrl}}{{item.url}}</span>
+          </paper-button>
+        </a>
+      </paper-material>
+    </template>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'academic-projects',
+      ready: function () {
+        this.projects = [
+          {
+            projectName: 'Morepork',
+            blurb: 'I worked on Morepork during my time at Spark Ventures. I was fortunate enough to be involved with Morepork right from' +
+            'early Alpha all the way through to the full product launch. It was a hugely exciting thing to work on because it has never been done' +
+            'before by a Kiwi company.'
+          },
+          {
+            projectName: 'Bigpipe',
+            blurb: 'Bigpipe is an awesome kiwi ISP that offers no contracts and unlimited usage as standard. I worked closely with the Bigpipe product' +
+            'team, and still keep in touch with them. They\'re great people. I worked on building backend and middleware functionality for the website, as' +
+            'well as dabbling in the front end of the website. '
+          },
+          {
+            projectName: "Continuous Delivery at Spark Ventures",
+            blurb: 'The Sierpinski triangle (also with the original orthography Sierpiński), also called the ' +
+            'Sierpinski gasket or the Sierpinski Sieve, is a fractal and attractive fixed set with the overall ' +
+            'shape of an equilateral triangle, subdivided recursively into smaller equilateral triangles. ' +
+            'Originally constructed as a curve, this is one of the basic examples of self-similar sets, i.e., ' +
+            'it is a mathematically generated pattern that can be reproducible at any magnification or reduction. ' +
+            'It is named after the Polish mathematician Wacław Sierpiński but appeared as a decorative ' +
+            'pattern many centuries prior to the work of Sierpiński.',
+            category: 'Algorithm',
+            url: 'Sierpinski-Triangle'
+          }
+        ];
+      }
+    });
+  </script>
+</dom-module>

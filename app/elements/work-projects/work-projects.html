@@ -1,0 +1,66 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="work-projects">
+  <template is="dom-repeat" items="{{projects}}">
+    <template is="dom-repeat" items="{{projects}}">
+      <paper-material>
+        <h3>Project: {{item.projectName}}</h3>
+        <p>{{item.blurb}}</p>
+        <p>Contribution Area: {{item.category}}</p>
+
+        <template is="dom-if" if="{{item.url}}">
+          <a data-route="url" href="{{item.url}}" target="_blank">
+            <paper-button raised>
+              <iron-icon icon="icons:arrow-forward"></iron-icon>
+              <span>View {{item.projectName}}</span>
+            </paper-button>
+          </a>
+        </template>
+      </paper-material>
+    </template>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'work-projects',
+      ready: function () {
+        this.projects = [
+          {
+            projectName: 'Morepork',
+            blurb: 'I worked on Morepork during my time at Spark Ventures. I was fortunate enough to be involved with Morepork right from' +
+            'early Alpha all the way through to the full product launch. It was a hugely exciting thing to work on because it has never been done' +
+            'before by a Kiwi company.',
+            category: 'Full Stack Development',
+            url: 'https://morepork.nz'
+          },
+          {
+            projectName: 'Bigpipe',
+            blurb: 'Bigpipe is an awesome kiwi ISP that offers no contracts and unlimited usage as standard. I worked closely with the Bigpipe product' +
+            'team, and still keep in touch with them. They\'re great people. I worked on building backend and middleware functionality for the website, as' +
+            'well as dabbling in the front end of the website.',
+            url: 'https://www.bigpipe.co.nz',
+            category: 'Full Stack Development'
+          },
+          {
+            projectName: "Continuous Delivery at Spark Ventures",
+            blurb: 'My introduction to the DevOps practice was at Spark Ventures. I helped stand up a platform team whose objectives were to streamline the process' +
+            'other devs used to write software. We focused on removing pain points, reducing or adjusting processes where appropriate and ensuring that teams had the right' +
+            'tools when they were needed. We also scaffolded out a CI process that reduced time to market and development costs, a large portion of that was providing the conditions needed' +
+            'for a new automated test capability to flourish, while reducing the manual processes used for development and deployment of software.',
+            category: 'Dev Ops and Automation'
+          }
+        ];
+      }
+    });
+  </script>
+</dom-module>
