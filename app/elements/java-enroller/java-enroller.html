@@ -17,23 +17,56 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
     </style>
-    <div>Hello from <span>{{foo}}</span></div>
+
+    <h1>Enroller</h1>
+    <h3>I'm probably not going to be super active maintaining Enroller</h3>
+    <h3>A Java program to help enrol people in things.</h3>
+    <p>it's a small program that I wrote to make my life easier. I had a job to set about 40-60 developers up with
+      some password management software. Rather than send all of them to Ops one by one to enter their details
+      (wasting Dev time and Ops time) - and rather than having to take all of their details myself
+      (wasting my time and theirs), I came up with a simple Swing GUI that would collect the relevant details, and send those off to a google form.</p>
+
+    <p>That google form piped the input off to a sheet that Ops has access to. It has benefits:</p>
+
+    <ol>
+      <li>I don't need to waste time sifting through emails, pulling out data and structuring it.</li>
+      <li>I don't need to know the passwords these guys want to register against the service - the program hashes the password in RAM and doesn't store state.</li>
+      <li>With the roll out of this program, it'll be easier for new developers to be enrolled in things when they
+        start working - the same details (except passwords) can be reused - simply change the endpoint you're hitting
+        and be automagically enrolled in Bitbucket, JIRA, anything you want.</li>
+    </ol>
+
+    <p>I'm sure there are other advantages (and drawbacks) that I haven't considered too. At any rate it was an interesting days work to get it all going!</p>
+
+    <p>I've run it through Sonar Qube and it has zero issues (as at 19 October 15) - so that bodes well for the quality
+      of the code I've written. Except for the lack of tests, I'm really trusting users not to wreck it since it's in
+      their interests not to! Perhaps I should harden it a bit. Time will tell.</p>
+
+    <a href="https://github.com/AlexanderNZ/enroller" target="_blank">
+      <paper-button raised>
+        <iron-icon icon="icons:arrow-forward"></iron-icon>
+        <span>View Source</span>
+      </paper-button>
+    </a>
+
+    <home-button></home-button>
+
   </template>
   <script>
-  (function() {
-    'use strict';
+    (function() {
+      'use strict';
 
-    Polymer({
-      is: 'java-enroller',
+      Polymer({
+        is: 'java-enroller',
 
-      properties: {
-        foo: {
-          type: String,
-          value: 'java-enroller',
-          notify: true
+        properties: {
+          foo: {
+            type: String,
+            value: 'java-enroller',
+            notify: true
+          }
         }
-      }
-    });
-  })();
+      });
+    })();
   </script>
 </dom-module>
