@@ -80,17 +80,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </a>
 
           <a data-route="work-projects" href="{{baseUrl}}work-projects">
-            <iron-icon icon="info"></iron-icon>
+            <iron-icon icon="maps:local-atm"></iron-icon>
             <span>Work Projects</span>
           </a>
 
           <a data-route="academic-projects" href="{{baseUrl}}academic-projects">
-            <iron-icon icon="info"></iron-icon>
+            <iron-icon icon="book"></iron-icon>
             <span>Academic Projects</span>
           </a>
 
           <a data-route="personal-projects" href="{{baseUrl}}personal-projects">
-            <iron-icon icon="info"></iron-icon>
+            <iron-icon icon="image:tag-faces"></iron-icon>
             <span>Personal projects</span>
           </a>
 
@@ -132,6 +132,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <!-- Main Content -->
         <div class="content">
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
+
+            <section data-route="home">
+
+              <paper-material elevation="1">
+                <h1>A quick note for context:</h1>
+                <p>This is a little experiment and learning aid for me, that also serves as a repository for information
+                about the work that I've done for pay, for grades and for the hell of it.</p>
+
+                <p>I intend for the code on or referenced by this website, to be high quality. That being said, a lot
+                of the code under my personal projects is under active development. I make no guarantees that it'll work.</p>
+
+                <p>But take a gander, hopefully you find something you think is neat.</p>
+
+                <p>Note that everything on here is under the BSD style licence distributed with the <a href="https://github.com/PolymerElements/polymer-starter-kit" target="_blank">
+                  Polymer Starter Kit</a>. For further information on licenses, see the licence tab on the left.</p>
+
+                <h3>Cheers, get stuck in.</h3>
+                <h2>Alex</h2>
+              </paper-material>
+
+            </section>
 
             <section data-route="licence">
                 <paper-material elevation="1">
