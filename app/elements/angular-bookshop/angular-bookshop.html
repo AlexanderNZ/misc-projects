@@ -1,0 +1,58 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="angular-bookshop">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h1>Angular Bookshop</h1>
+    <h3>This code is not currently being worked on.</h3>
+    <h3>This is an angular front end for a bookshop application</h3>
+    <p>This project was completed for a University assignment. It's a simple front end that has a number of security
+    vulnerabilities. We used this assignment to have a play with things like XSS and CSRF in a front end, defensive context.</p>
+
+    <p>We were provided with a vulnerable back end service for the second half of the assignment, and we had to figure out
+    how to break it in various different ways. This is the first introduction I had in to practical security work.</p>
+
+    <p>While I enjoyed this security work, and while I think it's a really important thing for every developer to be aware of,
+    I just can't bring myself to feel about it as passionately as I feel about other aspects of software development.</p>
+
+    <a href="https://github.com/AlexanderNZ/CS335-Sy-Assignment" target="_blank">
+      <paper-button raised>
+        <iron-icon icon="icons:arrow-forward"></iron-icon>
+        <span>View Source</span>
+      </paper-button>
+    </a>
+
+    <home-button></home-button>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'angular-bookshop',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'angular-bookshop',
+          notify: true
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>

@@ -1,0 +1,64 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="blog-api">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <h1>Blog API</h1>
+    <h3>This code is not currently being worked on.</h3>
+    <h3>A basic Blog Backend Java API</h3>
+    <p>This project was completed for a University assignment. It's the first serious bit of java I've written for
+      university since Compsci 230, which I took nearly 2 years ago. I really enjoyed this project.</p>
+
+    <p>It's a RESTful service built on JAXRS and JAXB with Jersey and Maven. I used annotations rather than data
+      transfer objects because I found it made for more readable code and less overall complexity.</p>
+
+    <p>It comes as the first part of a two part series of assignments for CS335, the submission I've just made involved
+      writing a front end that integrated with a remote book and bluray shop API. Once submissions for that close,
+      I might connect these two peices up and make a basic blog implementation.</p>
+
+    <p>Would that be completely unnecessary? God yes. For my actual blogging needs I use Jekyll (<3 Jekyll) -
+      but it would be pretty sweet to be able to point people to a working (albeit basic) blog that I wrote myself.</p>
+
+    <a href="https://github.com/AlexanderNZ/blog-api" target="_blank">
+      <paper-button raised>
+        <iron-icon icon="icons:arrow-forward"></iron-icon>
+        <span>View Source</span>
+      </paper-button>
+    </a>
+
+    <home-button></home-button>
+
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'blog-api',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'blog-api',
+          notify: true
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>
