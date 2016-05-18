@@ -27,18 +27,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       forums for that though. :P</p>
 
     <paper-input
-      label="Please enter a letter, a number between one and one hundred and the current date in dd/mm/yy format."
-      value="{{input}}"></paper-input>
+      label="Please enter a letter and any three digit integer. Your system time will also be used in this generation." value="{{input}}"></paper-input>
     <paper-button id="generate" toggles raised class="custom green" active="">Generate Identity</paper-button>
     <br>
 
     <template is="dom-if" if="{{showIdentity}}" role="listbox">
-      <paper-item>Name</paper-item>
-      <paper-item>Email Address</paper-item>
-      <paper-item>Phone Number</paper-item>
-      <paper-item>Drivers Licence Number</paper-item>
-      <paper-item>NHI Number</paper-item>
-      <paper-item>Passport Number</paper-item>
+      <paper-item>Name: {{name}}</paper-item>
+      <paper-item>Email Address: {{email}}</paper-item>
+      <paper-item>Phone Number: {{phone}}</paper-item>
+      <paper-item>Drivers Licence Number: {{driversLicenceNumber}}</paper-item>
+      <paper-item>NHI Number: {{NHINumber}}</paper-item>
+      <paper-item>Passport Number: {{passportNumber}}</paper-item>
     </template>
 
     <home-button></home-button>
@@ -66,7 +65,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           },
 
           name: {
-            type: String
+            type: String,
           },
 
           email: {
@@ -92,7 +91,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         generateIdentity: function (e) {
 
+          var currentDate = new Date();
+          this.generateName(),
+          this.generateEmail(),
+          this.generateDriversLicenceNumber(),
+          this.generateNHINumber(),
+          this.generatePassportNumber(),
           this.showIdentity = true
+          console.log(currentDate);
         },
 
         generateName: function (e) {
@@ -113,7 +119,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         generatePassportNumber: function (e) {
 
-        }
+        },
       });
     })();
   </script>
