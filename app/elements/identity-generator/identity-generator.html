@@ -19,28 +19,102 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 
     <h1>Identity Generator</h1>
-    <p>This is a simple tool that takes three inputs from a user, and provides a random fake identity based on that input.</p>
-    <p>A pseudo-random means of selection is used to try and ensure a wide variety of identities can be generated. Of course
-    this tool will only be as good as the randomised identity data I can find. I heard there are some good russian forums for that though. :P</p>
+    <p>This is a simple tool that takes three inputs from a user, and provides a random fake identity based on that
+      input.</p>
+    <p>A pseudo-random means of selection is used to try and ensure a wide variety of identities can be generated. Of
+      course
+      this tool will only be as good as the randomised identity data I can find. I heard there are some good russian
+      forums for that though. :P</p>
 
-    <paper-input label="Please enter a letter, a number between one and one hundred and the current date in dd/mm/yy format." data-value="{{input}}"></paper-input>
+    <paper-input
+      label="Please enter a letter, a number between one and one hundred and the current date in dd/mm/yy format."
+      value="{{input}}"></paper-input>
+    <paper-button id="generate" toggles raised class="custom green" active="">Generate Identity</paper-button>
+    <br>
+
+    <template is="dom-if" if="{{showIdentity}}" role="listbox">
+      <paper-item>Name</paper-item>
+      <paper-item>Email Address</paper-item>
+      <paper-item>Phone Number</paper-item>
+      <paper-item>Drivers Licence Number</paper-item>
+      <paper-item>NHI Number</paper-item>
+      <paper-item>Passport Number</paper-item>
+    </template>
 
     <home-button></home-button>
   </template>
   <script>
-  (function() {
-    'use strict';
+    (function () {
+      'use strict';
 
-    Polymer({
-      is: 'identity-generator',
+      Polymer({
+        is: 'identity-generator',
 
-      properties: {
-        input: {
-          type: String,
-          notify: true
+        listeners: {
+          'generate.click': 'generateIdentity',
+        },
+
+        properties: {
+
+          showIdentity: {
+            type: Boolean
+          },
+
+          input: {
+            type: String,
+            value: ""
+          },
+
+          name: {
+            type: String
+          },
+
+          email: {
+            type: String
+          },
+
+          phone: {
+            type: String
+          },
+
+          driversLicenceNumber: {
+            type: String
+          },
+
+          NHINumber: {
+            type: String
+          },
+
+          passportNumber: {
+            type: String
+          }
+        },
+
+        generateIdentity: function (e) {
+
+          this.showIdentity = true
+        },
+
+        generateName: function (e) {
+
+        },
+
+        generateEmail: function (e) {
+
+        },
+
+        generateDriversLicenceNumber: function (e) {
+
+        },
+
+        generateNHINumber: function (e) {
+
+        },
+
+        generatePassportNumber: function (e) {
+
         }
-      }
-    });
-  })();
+      });
+    })();
   </script>
 </dom-module>

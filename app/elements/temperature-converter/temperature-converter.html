@@ -96,10 +96,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         'fahrenheit.click': 'regularTap'
       },
 
-      regularTap: function(e) {
-        this.showResults = true
-      },
-
       properties: {
 
         showResults: {
@@ -139,6 +135,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value: false,
           observer:'calculateFromFahrenheit'
         }
+      },
+
+      regularTap: function(e) {
+        this.showResults = true
       },
 
       calculateFromCelsius: function(temp) {
