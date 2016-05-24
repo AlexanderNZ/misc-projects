@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 
 <dom-module id="identity-generator">
   <template>
@@ -41,6 +42,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </template>
 
     <home-button></home-button>
+
+    <iron-ajax id="jsonNames" auto url="https://randomuser.me/api/" handle-as="json" on-response="parseName"></iron-ajax>
+
   </template>
   <script>
     (function () {
@@ -51,6 +55,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         listeners: {
           'generate.click': 'generateIdentity',
+          'parseName': 'parseName',
         },
 
         properties: {
@@ -86,23 +91,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           passportNumber: {
             type: String
-          }
+          },
+
+          jsonData: {
+            type: String
+          },
         },
 
         generateIdentity: function (e) {
 
           var currentDate = new Date();
+          console.log(currentDate);
           this.generateName(),
           this.generateEmail(),
           this.generateDriversLicenceNumber(),
           this.generateNHINumber(),
           this.generatePassportNumber(),
           this.showIdentity = true
-          console.log(currentDate);
         },
 
-        generateName: function (e) {
-
+        generateName: function () {
+          console.log(this.jsonData);
+          console.log(this.jsonData.results[0].name.first)
+          this.name = "" + this.jsonData.results[0].name.first + " " + this.jsonData.results[0].name.last;
         },
 
         generateEmail: function (e) {
@@ -119,6 +130,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         generatePassportNumber: function (e) {
 
+        },
+
+        parseName: function (data) {
+          this.jsonData = data.detail.response;
         },
       });
     })();
