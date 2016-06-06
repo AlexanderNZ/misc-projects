@@ -20,6 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
+
 </head><body><div hidden="" by-vulcanize=""><script>(function () {
 function resolve() {
 document.body.removeAttribute('unresolved');
@@ -9128,19 +9129,16 @@ this.fire('dom-change');
      */
     setItemSelected: function(item, isSelected) {
       if (item != null) {
-        if (isSelected !== this.isSelected(item)) {
-          // proceed to update selection only if requested state differs from current
-          if (isSelected) {
-            this.selection.push(item);
-          } else {
-            var i = this.selection.indexOf(item);
-            if (i >= 0) {
-              this.selection.splice(i, 1);
-            }
+        if (isSelected) {
+          this.selection.push(item);
+        } else {
+          var i = this.selection.indexOf(item);
+          if (i >= 0) {
+            this.selection.splice(i, 1);
           }
-          if (this.selectCallback) {
-            this.selectCallback(item, isSelected);
-          }
+        }
+        if (this.selectCallback) {
+          this.selectCallback(item, isSelected);
         }
       }
     },
@@ -9211,14 +9209,8 @@ this.fire('dom-change');
     properties: {
 
       /**
-       * If you want to use an attribute value or property of an element for
-       * `selected` instead of the index, set this to the name of the attribute
-       * or property. Hyphenated values are converted to camel case when used to
-       * look up the property of a selectable element. Camel cased values are
-       * *not* converted to hyphenated values for attribute lookup. It's
-       * recommended that you provide the hyphenated form of the name so that
-       * selection works in both cases. (Use `attr-or-property-name` instead of
-       * `attrOrPropertyName`.)
+       * If you want to use the attribute value of an element for `selected` instead of the index,
+       * set this to the name of the attribute.
        */
       attrForSelected: {
         type: String,
@@ -9227,7 +9219,6 @@ this.fire('dom-change');
 
       /**
        * Gets or sets the selected element. The default is to use the index of the item.
-       * @type {string|number}
        */
       selected: {
         type: String,
@@ -9279,21 +9270,11 @@ this.fire('dom-change');
       },
 
       /**
-       * Default fallback if the selection based on selected with `attrForSelected`
-       * is not found.
-       */
-      fallbackSelection: {
-        type: String,
-        value: null
-      },
-
-      /**
        * The list of items from which a selection can be made.
        */
       items: {
         type: Array,
         readOnly: true,
-        notify: true,
         value: function() {
           return [];
         }
@@ -9316,9 +9297,7 @@ this.fire('dom-change');
     },
 
     observers: [
-      '_updateAttrForSelected(attrForSelected)',
-      '_updateSelected(selected)',
-      '_checkFallback(fallbackSelection)'
+      '_updateSelected(attrForSelected, selected)'
     ],
 
     created: function() {
@@ -9330,7 +9309,7 @@ this.fire('dom-change');
       this._observer = this._observeItems(this);
       this._updateItems();
       if (!this._shouldUpdateSelection) {
-        this._updateSelected();
+        this._updateSelected(this.attrForSelected,this.selected)
       }
       this._addListener(this.activateEvent);
     },
@@ -9357,7 +9336,7 @@ this.fire('dom-change');
      * Selects the given value.
      *
      * @method select
-     * @param {string|number} value the value to select.
+     * @param {string} value the value to select.
      */
     select: function(value) {
       this.selected = value;
@@ -9384,39 +9363,8 @@ this.fire('dom-change');
       this.selected = this._indexToValue(index);
     },
 
-    /**
-     * Selects the item at the given index.
-     *
-     * @method selectIndex
-     */
-    selectIndex: function(index) {
-      this.select(this._indexToValue(index));
-    },
-
-    /**
-     * Force a synchronous update of the `items` property.
-     *
-     * NOTE: Consider listening for the `iron-items-changed` event to respond to
-     * updates to the set of selectable items after updates to the DOM list and
-     * selection state have been made.
-     *
-     * WARNING: If you are using this method, you should probably consider an
-     * alternate approach. Synchronously querying for items is potentially
-     * slow for many use cases. The `items` property will update asynchronously
-     * on its own to reflect selectable items in the DOM.
-     */
-    forceSynchronousItemUpdate: function() {
-      this._updateItems();
-    },
-
     get _shouldUpdateSelection() {
       return this.selected != null;
-    },
-
-    _checkFallback: function() {
-      if (this._shouldUpdateSelection) {
-        this._updateSelected();
-      }
     },
 
     _addListener: function(eventName) {
@@ -9438,23 +9386,12 @@ this.fire('dom-change');
       this._setItems(nodes);
     },
 
-    _updateAttrForSelected: function() {
-      if (this._shouldUpdateSelection) {
-        this.selected = this._indexToValue(this.indexOf(this.selectedItem));
-      }
-    },
-
     _updateSelected: function() {
       this._selectSelected(this.selected);
     },
 
     _selectSelected: function(selected) {
       this._selection.select(this._valueToItem(this.selected));
-      // Check for items, since this array is populated only when attached
-      // Since Number(0) is falsy, explicitly check for undefined
-      if (this.fallbackSelection && this.items.length && (this._selection.get() === undefined)) {
-        this.selected = this.fallbackSelection;
-      }
     },
 
     _filterItem: function(node) {
@@ -9489,8 +9426,7 @@ this.fire('dom-change');
     },
 
     _valueForItem: function(item) {
-      var propValue = item[Polymer.CaseMap.dashToCamelCase(this.attrForSelected)];
-      return propValue != undefined ? propValue : item.getAttribute(this.attrForSelected);
+      return item[this.attrForSelected] || item.getAttribute(this.attrForSelected);
     },
 
     _applySelection: function(item, isSelected) {
@@ -9511,18 +9447,18 @@ this.fire('dom-change');
     // observe items change under the given node.
     _observeItems: function(node) {
       return Polymer.dom(node).observeNodes(function(mutations) {
+        // Let other interested parties know about the change so that
+        // we don't have to recreate mutation observers everywher.
+        this.fire('iron-items-changed', mutations, {
+          bubbles: false,
+          cancelable: false
+        });
+
         this._updateItems();
 
         if (this._shouldUpdateSelection) {
           this._updateSelected();
         }
-
-        // Let other interested parties know about the change so that
-        // we don't have to recreate mutation observers everywhere.
-        this.fire('iron-items-changed', mutations, {
-          bubbles: false,
-          cancelable: false
-        });
       });
     },
 
@@ -9637,7 +9573,7 @@ this.fire('dom-change');
     },
 
     observers: [
-      '_updateSelected(selectedValues.splices)'
+      '_updateSelected(attrForSelected, selectedValues)'
     ],
 
     /**
@@ -9645,7 +9581,7 @@ this.fire('dom-change');
      * `value` will be toggled; otherwise the `value` will be selected.
      *
      * @method select
-     * @param {string|number} value the value to select.
+     * @param {string} value the value to select.
      */
     select: function(value) {
       if (this.multi) {
@@ -9668,18 +9604,6 @@ this.fire('dom-change');
         (this.selectedValues != null && this.selectedValues.length);
     },
 
-    _updateAttrForSelected: function() {
-      if (!this.multi) {
-        Polymer.IronSelectableBehavior._updateAttrForSelected.apply(this);
-      } else if (this._shouldUpdateSelection) {
-        this.selectedValues = this.selectedItems.map(function(selectedItem) {
-          return this._indexToValue(this.indexOf(selectedItem));
-        }, this).filter(function(unfilteredValue) {
-          return unfilteredValue != null;
-        }, this);
-      }
-    },
-
     _updateSelected: function() {
       if (this.multi) {
         this._selectMulti(this.selectedValues);
@@ -9689,23 +9613,11 @@ this.fire('dom-change');
     },
 
     _selectMulti: function(values) {
+      this._selection.clear();
       if (values) {
-        var selectedItems = this._valuesToItems(values);
-        // clear all but the current selected items
-        this._selection.clear(selectedItems);
-        // select only those not selected yet
-        for (var i = 0; i < selectedItems.length; i++) {
-          this._selection.setItemSelected(selectedItems[i], true);
+        for (var i = 0; i < values.length; i++) {
+          this._selection.setItemSelected(this._valueToItem(values[i]), true);
         }
-        // Check for items, since this array is populated only when attached
-        if (this.fallbackSelection && this.items.length && !this._selection.get().length) {
-          var fallback = this._valueToItem(this.fallbackSelection);
-          if (fallback) {
-            this.selectedValues = [this.fallbackSelection];
-          }
-        }
-      } else {
-        this._selection.clear();
       }
     },
 
@@ -9727,12 +9639,7 @@ this.fire('dom-change');
       } else {
         this.splice('selectedValues',i,1);
       }
-    },
-
-    _valuesToItems: function(values) {
-      return (values == null) ? null : values.map(function(value) {
-        return this._valueToItem(value);
-      }, this);
+      this._selection.setItemSelected(this._valueToItem(value), unselected);
     }
   };
 
@@ -9768,21 +9675,6 @@ this.fire('dom-change');
         <div name="bar">Bar</div>
         <div name="zot">Zot</div>
       </iron-selector>
-
-  You can specify a default fallback with `fallbackSelection` in case the `selected` attribute does
-  not match the `attrForSelected` attribute of any elements.
-
-  Example:
-
-        <iron-selector attr-for-selected="name" selected="non-existing"
-                       fallback-selection="default">
-          <div name="foo">Foo</div>
-          <div name="bar">Bar</div>
-          <div name="default">Default</div>
-        </iron-selector>
-
-  Note: When the selector is multi, the selection will set to `fallbackSelection` iff
-  the number of matching elements is zero.
 
   `iron-selector` is not styled. Use the `iron-selected` CSS class to style the selected element.
 
@@ -14834,40 +14726,36 @@ Use `noOverlap` to position the element around another element without overlappi
       var position;
       for (var i = 0; i < positions.length; i++) {
         var pos = positions[i];
+        // Align is ok if:
+        // - Horizontal AND vertical are required and match, or
+        // - Only vertical is required and matches, or
+        // - Only horizontal is required and matches.
+        var alignOk = (pos.verticalAlign === vAlign && pos.horizontalAlign === hAlign) ||
+                      (pos.verticalAlign === vAlign && !hAlign) ||
+                      (pos.horizontalAlign === hAlign && !vAlign);
 
         // If both vAlign and hAlign are defined, return exact match.
         // For dynamicAlign and noOverlap we'll have more than one candidate, so
         // we'll have to check the croppedArea to make the best choice.
-        if (!this.dynamicAlign && !this.noOverlap &&
-            pos.verticalAlign === vAlign && pos.horizontalAlign === hAlign) {
+        if (!this.dynamicAlign && !this.noOverlap && vAlign && hAlign && alignOk) {
           position = pos;
           break;
         }
 
-        // Align is ok if alignment preferences are respected. If no preferences,
-        // it is considered ok.
-        var alignOk = (!vAlign || pos.verticalAlign === vAlign) &&
-                      (!hAlign || pos.horizontalAlign === hAlign);
-
         // Filter out elements that don't match the alignment (if defined).
         // With dynamicAlign, we need to consider all the positions to find the
         // one that minimizes the cropped area.
-        if (!this.dynamicAlign && !alignOk) {
+        if (!this.dynamicAlign && (vAlign || hAlign) && !alignOk) {
           continue;
         }
 
         position = position || pos;
         pos.croppedArea = this.__getCroppedArea(pos, size, fitRect);
         var diff = pos.croppedArea - position.croppedArea;
-        // Check which crops less. If it crops equally, check if align is ok.
+        // Check which crops less. If it crops equally,
+        // check for alignment preferences.
         if (diff < 0 || (diff === 0 && alignOk)) {
           position = pos;
-        }
-        // If not cropped and respects the align requirements, keep it.
-        // This allows to prefer positions overlapping horizontally over the
-        // ones overlapping vertically.
-        if (position.croppedArea === 0 && alignOk) {
-          break;
         }
       }
 
@@ -17698,30 +17586,6 @@ module.exports = Array.isArray || function (arr) {
       app.route = 'academic-projects';
     });
 
-    page('/Sierpinski-Triangle', function() {
-      app.route = 'Sierpinski-Triangle';
-    });
-
-    page('/Apollonian-Gasket', function() {
-      app.route = 'Apollonian-Gasket';
-    });
-
-    page('/Wiener-Process', function() {
-      app.route = 'Wiener-Process';
-    });
-
-    page('/Quick-Sort', function() {
-      app.route = 'Quick-Sort';
-    });
-
-    page('/Radix-Sort', function() {
-      app.route = 'Radix-Sort';
-    });
-
-    page('/Gnome-Sort', function() {
-      app.route = 'Gnome-Sort';
-    });
-
     page('/java-enroller', function() {
       app.route = 'java-enroller';
     });
@@ -17738,9 +17602,9 @@ module.exports = Array.isArray || function (arr) {
       app.route = 'Temperature-Converter';
     });
 
-    page('/Identity-Generator', function() {
-      app.route = 'Identity-Generator';
-    });
+//    page('/Identity-Generator', function() {
+//      app.route = 'Identity-Generator';
+//    });
 
     page('/contact', function() {
       app.route = 'contact';
@@ -18018,176 +17882,6 @@ module.exports = Array.isArray || function (arr) {
       }
     </style>
   </template>
-</dom-module>
-<dom-module id="sierpinski-triangle" assetpath="sierpinski-triangle/">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-    <h1>Hello from <span>{{foo}}</span></h1>
-
-    <home-button></home-button>
-  </template>
-  <script>
-    (function () {
-      'use strict';
-
-      Polymer({
-        is: 'sierpinski-triangle',
-
-        properties: {
-          foo: {
-            type: String,
-            value: 'sierpinski-triangle',
-            notify: true
-          }
-        }
-      });
-    })();
-  </script>
-
-</dom-module>
-<dom-module id="apollonian-gasket" assetpath="apollonian-gasket/">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-    <div>Hello from <span>{{foo}}</span></div>
-    <home-button></home-button>
-  </template>
-  <script>
-  (function() {
-    'use strict';
-
-    Polymer({
-      is: 'apollonian-gasket',
-
-      properties: {
-        foo: {
-          type: String,
-          value: 'apollonian-gasket',
-          notify: true
-        }
-      }
-    });
-  })();
-  </script>
-</dom-module>
-<dom-module id="weiner-process" assetpath="weiner-process/">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-    <div>Hello from <span>{{foo}}</span></div>
-    <home-button></home-button>
-  </template>
-  <script>
-  (function() {
-    'use strict';
-
-    Polymer({
-      is: 'weiner-process',
-
-      properties: {
-        foo: {
-          type: String,
-          value: 'weiner-process',
-          notify: true
-        }
-      }
-    });
-  })();
-  </script>
-</dom-module>
-<dom-module id="quick-sort" assetpath="quick-sort/">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-    <div>Hello from <span>{{foo}}</span></div>
-    <home-button></home-button>
-  </template>
-  <script>
-  (function() {
-    'use strict';
-
-    Polymer({
-      is: 'quick-sort',
-
-      properties: {
-        foo: {
-          type: String,
-          value: 'quick-sort',
-          notify: true
-        }
-      }
-    });
-  })();
-  </script>
-</dom-module>
-<dom-module id="radix-sort" assetpath="radix-sort/">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-    <div>Hello from <span>{{foo}}</span></div>
-    <home-button></home-button>
-  </template>
-  <script>
-  (function() {
-    'use strict';
-
-    Polymer({
-      is: 'radix-sort',
-
-      properties: {
-        foo: {
-          type: String,
-          value: 'radix-sort',
-          notify: true
-        }
-      }
-    });
-  })();
-  </script>
-</dom-module>
-<dom-module id="gnome-sort" assetpath="gnome-sort/">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-    <div>Hello from <span>{{foo}}</span></div>
-    <home-button></home-button>
-  </template>
-  <script>
-  (function() {
-    'use strict';
-
-    Polymer({
-      is: 'gnome-sort',
-
-      properties: {
-        foo: {
-          type: String,
-          value: 'gnome-sort',
-          notify: true
-        }
-      }
-    });
-  })();
-  </script>
 </dom-module>
 <script>
   /**
@@ -20219,10 +19913,6 @@ is separate from validation, and `allowed-pattern` does not affect how the input
         'fahrenheit.click': 'regularTap'
       },
 
-      regularTap: function(e) {
-        this.showResults = true
-      },
-
       properties: {
 
         showResults: {
@@ -20230,18 +19920,6 @@ is separate from validation, and `allowed-pattern` does not affect how the input
         },
 
         temp: {
-          type: Number
-        },
-
-        celsiusResult: {
-          type: Number
-        },
-
-        kelvinResult: {
-          type: Number
-        },
-
-        fahrenheitResult: {
           type: Number
         },
 
@@ -20264,6 +19942,10 @@ is separate from validation, and `allowed-pattern` does not affect how the input
         }
       },
 
+      regularTap: function(e) {
+        this.showResults = true
+      },
+
       calculateFromCelsius: function(temp) {
         this.celsiusField = Number(this.temp);
         this.kelvinField = Number(this.temp) + 273.15;
@@ -20282,40 +19964,6 @@ is separate from validation, and `allowed-pattern` does not affect how the input
         this.fahrenheitField = Number(this.temp);
       }
     })
-  })();
-  </script>
-</dom-module>
-<dom-module id="identity-generator" assetpath="identity-generator/">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-
-    <h1>Identity Generator</h1>
-    <p>This is a simple tool that takes three inputs from a user, and provides a random fake identity based on that input.</p>
-    <p>A pseudo-random means of selection is used to try and ensure a wide variety of identities can be generated. Of course
-    this tool will only be as good as the randomised identity data I can find. I heard there are some good russian forums for that though. :P</p>
-
-    <paper-input label="Please enter a letter, a number between one and one hundred and the current date in dd/mm/yy format." data-value="{{input}}"></paper-input>
-
-    <home-button></home-button>
-  </template>
-  <script>
-  (function() {
-    'use strict';
-
-    Polymer({
-      is: 'identity-generator',
-
-      properties: {
-        input: {
-          type: String,
-          notify: true
-        }
-      }
-    });
   })();
   </script>
 </dom-module>
@@ -20403,82 +20051,19 @@ is separate from validation, and `allowed-pattern` does not affect how the input
           },
           {
             projectName: 'Enroller',
-            blurb: 'A Java program to aid enroller people in things. It basically takes some user input and pipes it off to' +
+            blurb: 'A Java program to aid enrolling of people in things. It basically takes some user input and pipes it off to' +
             'a Google Sheet.',
             category: 'Tool',
             url: 'java-enroller'
-          },
-          {
-            projectName: 'Identity Generator',
-            blurb: 'This tool generates a random identity - that is it generates a full name, phone number, ' +
-            'email address, IRD number, bank account and credit card details, and a physical address. ' +
-            'Obviously all of these details are completely fake and random.',
-            category: 'Tool',
-            url: 'Identity-Generator'
-          },
-          {
-            projectName: "Sierpinski Triangle",
-            blurb: 'The Sierpinski triangle (also with the original orthography Sierpiński), also called the ' +
-            'Sierpinski gasket or the Sierpinski Sieve, is a fractal and attractive fixed set with the overall ' +
-            'shape of an equilateral triangle, subdivided recursively into smaller equilateral triangles. ' +
-            'Originally constructed as a curve, this is one of the basic examples of self-similar sets, i.e., ' +
-            'it is a mathematically generated pattern that can be reproducible at any magnification or reduction. ' +
-            'It is named after the Polish mathematician Wacław Sierpiński but appeared as a decorative ' +
-            'pattern many centuries prior to the work of Sierpiński.',
-            category: 'Algorithm',
-            url: 'Sierpinski-Triangle'
-          },
-          {
-            projectName: 'Apollonian Gasket',
-            blurb: 'In mathematics, an Apollonian gasket or Apollonian net is a fractal generated from ' +
-            'triples of circles, where each circle is tangent to the other two. It is named after Greek ' +
-            'mathematician Apollonius of Perga.',
-            category: 'Algorithm',
-            url: 'Apollonian-Gasket'
-          },
-          {
-            projectName: 'Wiener Process',
-            blurb: 'In mathematics, the Wiener process is a continuous-time stochastic process named in ' +
-            'honor of Norbert Wiener. It is often called standard Brownian motion, after Robert Brown. ' +
-            'It is one of the best known Lévy processes (càdlàg stochastic processes with stationary ' +
-            'independent increments) and occurs frequently in pure and applied mathematics, economics, ' +
-            'quantitative finance, and physics.',
-            category: 'Algorithm',
-            url: 'Wiener-Process'
-          },
-          {
-            projectName: 'Quick Sort',
-            blurb: 'Quicksort (sometimes called partition-exchange sort) is an efficient sorting algorithm, ' +
-            'serving as a systematic method for placing the elements of an array in order. Developed by Tony ' +
-            'Hoare in 1959,[1] with his work published in 1961,[2] it is still a commonly used algorithm for ' +
-            'sorting. When implemented well, it can be about two or three times faster than its main ' +
-            'competitors, merge sort and heapsort.[3]',
-            category: 'Sorting Algorithm',
-            url: 'Quick-Sort'
-          },
-          {
-            projectName: 'Radix Sort',
-            blurb: 'In computer science, radix sort is a non-comparative integer sorting algorithm that ' +
-            'sorts data with integer keys by grouping keys by the individual digits which share the same ' +
-            'significant position and value. A positional notation is required, but because integers can ' +
-            'represent strings of characters (e.g., names or dates) and specially formatted floating point ' +
-            'numbers, radix sort is not limited to integers. Radix sort dates back as far as 1887 to the ' +
-            'work of Herman Hollerith on tabulating machines.[1]',
-            category: 'Sorting Algorithm',
-            url: 'Radix-Sort'
-          }, {
-            projectName: 'Gnome Sort',
-            blurb: 'Gnome sort (or Stupid sort) is a sorting algorithm originally proposed by Dr. Hamid ' +
-            'Sarbazi-Azad (Professor of Computer Engineering at Sharif University of Technology) in 2000 ' +
-            'and called "stupid sort"[1] (not to be confused with bogosort), and then later on described by ' +
-            'Dick Grune and named "gnome sort" from the observation that it is "how a gnome sorts a line of ' +
-            'flower pots."[2] It is a sorting algorithm which is similar to insertion sort, except that ' +
-            'moving an element to its proper place is accomplished by a series of swaps, as in bubble sort. ' +
-            'It is conceptually simple, requiring no nested loops. The average, or expected, running time is ' +
-            'O(n2), but tends towards O(n) if the list is initially almost sorted.[3]',
-            category: 'Sorting Algorithm',
-            url: 'Gnome-Sort'
           }
+//          {
+//            projectName: 'Identity Generator',
+//            blurb: 'This tool generates a random identity - that is it generates a full name, phone number, ' +
+//            'email address, IRD number, bank account and credit card details, and a physical address. ' +
+//            'Obviously all of these details are completely fake and random.',
+//            category: 'Tool',
+//            url: 'Identity-Generator'
+//          }
         ];
       }
     });
