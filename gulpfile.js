@@ -142,6 +142,14 @@ gulp.task('build', ['images', 'fonts'], function() {
     .pipe(gulp.dest(dist()))
 });
 
+gulp.task('scripts', function () {
+  return gulp.src('app/scripts/app.js')
+    .pipe($.uglify().on('error', function(e){
+      console.log(e);
+    }))
+    .pipe(gulp.dest(dist('scripts')));
+});
+
 // Vulcanize granular configuration
 gulp.task('vulcanize', function() {
   return gulp.src('app/elements/elements.html')
@@ -253,6 +261,7 @@ gulp.task('default', ['clean'], function(cb) {
   runSequence(
     ['ensureFiles', 'copy', 'styles'],
     'build',
+    'scripts',
     'vulcanize', // 'cache-config',
     cb);
 });
