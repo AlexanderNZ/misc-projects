@@ -1,5 +1,4 @@
 /*
- @license
  Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
  This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
  The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
@@ -71,6 +70,35 @@ var imageOptimizeTask = function(src, dest) {
     .pipe($.size({title: 'images'}));
 };
 
+var optimizeHtmlTask = function(src, dest) {
+  var assets = $.useref.assets({
+    searchPath: ['.tmp', 'app']
+  });
+
+  return gulp.src(src)
+    .pipe(assets)
+    // Concatenate and minify JavaScript
+    .pipe($.if('*.js', $.uglify({
+      preserveComments: 'some'
+    })))
+    // Concatenate and minify styles
+    // In case you are still using useref build blocks
+    .pipe($.if('*.css', $.minifyCss()))
+    .pipe(assets.restore())
+    .pipe($.useref())
+    // Minify any HTML
+    .pipe($.if('*.html', $.minifyHtml({
+      quotes: true,
+      empty: true,
+      spare: true
+    })))
+    // Output files
+    .pipe(gulp.dest(dest))
+    .pipe($.size({
+      title: 'html'
+    }));
+};
+
 // Compile and automatically prefix stylesheets
 gulp.task('styles', function() {
   return styleTask('styles', ['**/*.css']);
@@ -127,27 +155,10 @@ gulp.task('fonts', function() {
 });
 
 // Scan your HTML for assets & optimize them
-gulp.task('build', ['images', 'fonts'], function() {
-  return gulp.src(['app/**/*.html', '!app/{elements,test,bower_components}/**/*.html'])
-    .pipe($.useref())
-    .pipe($.if('*.js', $.uglify({
-      preserveComments: 'some'
-    })))
-    .pipe($.if('*.css', $.minifyCss()))
-    .pipe($.if('*.html', $.minifyHtml({
-      quotes: true,
-      empty: true,
-      spare: true
-    })))
-    .pipe(gulp.dest(dist()))
-});
-
-gulp.task('scripts', function () {
-  return gulp.src('app/scripts/app.js')
-    .pipe($.uglify().on('error', function(e){
-      console.log(e);
-    }))
-    .pipe(gulp.dest(dist('scripts')));
+gulp.task('html', function() {
+  return optimizeHtmlTask(
+    ['app/**/*.html', '!app/{elements,test,bower_components}/**/*.html'],
+    dist());
 });
 
 // Vulcanize granular configuration
@@ -260,8 +271,7 @@ gulp.task('default', ['clean'], function(cb) {
   // Uncomment 'cache-config' if you are going to use service workers.
   runSequence(
     ['ensureFiles', 'copy', 'styles'],
-    'build',
-    'scripts',
+    ['images', 'fonts', 'html'],
     'vulcanize', // 'cache-config',
     cb);
 });
